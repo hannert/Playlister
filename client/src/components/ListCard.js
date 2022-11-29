@@ -1,11 +1,13 @@
-import { useContext, useState } from 'react'
-import { GlobalStoreContext } from '../store'
-import Box from '@mui/material/Box';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import { Grid, Typography } from '@mui/material';
+import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import ListItem from '@mui/material/ListItem';
 import TextField from '@mui/material/TextField';
+import { useContext, useState } from 'react';
+import { GlobalStoreContext } from '../store';
+
 
 /*
     This is a card in our list of top 5 lists. It lets select
@@ -37,6 +39,11 @@ function ListCard(props) {
     function handleToggleEdit(event) {
         event.stopPropagation();
         toggleEdit();
+    }
+
+    function handleExpand() {
+        // Handle expanding or collapsing the playlist
+        
     }
 
     function toggleEdit() {
@@ -78,13 +85,51 @@ function ListCard(props) {
             id={idNamePair._id}
             key={idNamePair._id}
             sx={{ marginTop: '15px', display: 'flex', p: 1 }}
-            style={{ width: '100%', fontSize: '48pt' }}
+            style={{ width: '100%'}}
             button
             onClick={(event) => {
                 handleLoadList(event, idNamePair._id)
             }}
         >
-            <Box sx={{ p: 1, flexGrow: 1 }}>{idNamePair.name}</Box>
+            <Grid 
+            container
+            direction="row"
+            >
+                <Grid item xs={6}>
+                    <Box sx={{ p: 1, flexGrow: 1, flexDirection:'column' }}>
+                        <Box> 
+                            {idNamePair.name}
+                        </Box>
+                        <Box>
+                            By: Creator
+                        </Box>
+                        <Box>
+                            <Typography>
+                                <strong></strong>
+                            </Typography>
+                            Expanded List goes in here! (Will be hidden if collapsed)
+                        </Box>
+                        <Box>
+                            <Typography>
+                                <strong>Published: </strong>
+                                Publish date does here!
+                            </Typography>
+                        </Box>
+                        
+                    </Box>
+                </Grid>
+                <Grid item xs={6}>
+                    <Grid container>
+                        <Grid item xs={6}>Like</Grid>
+                        <Grid item xs={6}>Dislike</Grid>
+                    </Grid>
+                    <Box sx={{height:'80%', backgroundColor:'pink', display:'flex',flexDirection:'column'}}>
+                        <Typography sx={{marginTop:'auto'}}>Lifetime: Lifetime views go here!</Typography>
+                    </Box>
+                    
+                </Grid>
+            </Grid>
+            
             <Box sx={{ p: 1 }}>
                 <IconButton onClick={handleToggleEdit} aria-label='edit'>
                     <EditIcon style={{fontSize:'48pt'}} />
