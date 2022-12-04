@@ -1,14 +1,10 @@
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-import { Grid, Typography } from '@mui/material';
+import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
+import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
+import { Grid, IconButton, List, ListItem } from '@mui/material';
 import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
-import ListItem from '@mui/material/ListItem';
 import TextField from '@mui/material/TextField';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { GlobalStoreContext } from '../store';
-
-
 /*
     This is a card in our list of top 5 lists. It lets select
     a list for editing and it has controls for changing its 
@@ -19,8 +15,24 @@ import { GlobalStoreContext } from '../store';
 function ListCard(props) {
     const { store } = useContext(GlobalStoreContext);
     const [editActive, setEditActive] = useState(false);
+    const [expanded, setExpanded] = useState(false);
+    const [songs, setSongs] = useState(null);
     const [text, setText] = useState("");
     const { idNamePair, selected } = props;
+
+    useEffect(() => {
+        console.log("expanded list changed")
+        console.log(store.recentlyExpandedList)
+        console.log(idNamePair._id)
+        
+        if(store.recentlyExpandedList){ 
+            // If the newly queried list is the same one as this list card
+            if(store.recentlyExpandedList._id === idNamePair._id){
+                console.log("MATCH FOUND!!!!")
+                setSongs(store.recentlyExpandedList.songs)
+            }
+        }
+    }, [store.recentlyExpandedList])
 
     function handleLoadList(event, id) {
         console.log("handleLoadList for " + id);
@@ -41,9 +53,31 @@ function ListCard(props) {
         toggleEdit();
     }
 
-    function handleExpand() {
+    async function handleExpand(event, id) {
         // Handle expanding or collapsing the playlist
-        
+        //Playlist retrieved with call to store, sets recentlyExpandedList, 
+        //list cards check if list is matching, then update their own state with playlist.
+        console.log("Expand");
+        if (!event.target.disabled) {
+            let _id = event.target.id;
+            if (_id.indexOf('list-card-text-') >= 0)
+                _id = ("" + _id).substring("list-card-text-".length);
+
+            console.log("Get " + event.target.id);
+
+            // CHANGE THE CURRENT LIST
+            let list = store.getListById(id);
+            console.log(list)
+        }
+        setExpanded(true);
+    }
+    function handleCollapse() {
+        setExpanded(false);
+    }
+
+    // Need function to retreive the list songs when expanded
+    function handleInner(e) {
+        e.stopPropagation();
     }
 
     function toggleEdit() {
@@ -80,89 +114,116 @@ function ListCard(props) {
     if (store.isListNameEditActive) {
         cardStatus = true;
     }
-    let cardElement =
-        <ListItem
-            id={idNamePair._id}
-            key={idNamePair._id}
-            sx={{ marginTop: '15px', display: 'flex', p: 1 }}
-            style={{ width: '100%'}}
-            button
-            onClick={(event) => {
-                handleLoadList(event, idNamePair._id)
-            }}
+
+    let playlistName = 
+        <Box> 
+            {idNamePair.name}
+        </Box>
+
+    if(editActive) 
+        playlistName = 
+            <TextField
+            margin="normal"
+            required
+            // fullWidth
+            id={"list-" + idNamePair._id}
+            label="Playlist Name"
+            name="name"
+            autoComplete="Playlist Name"
+            className='list-card'
+            onKeyPress={handleKeyPress}
+            onChange={handleUpdateText}
+            defaultValue={idNamePair.name}
+            // inputProps={{style: {fontSize: 48}}}
+            // InputLabelProps={{style: {fontSize: 24}}}
+            autoFocus
+            />
+
+    let expandedList = 
+        <Box></Box>
+
+    if (expanded === true) {
+        expandedList = <Box sx={{backgroundColor:'burlywood'}}> Expanded list! </Box>
+    }
+
+    if (songs !== null && expanded === true) {
+        expandedList = <List
+            onClick={handleInner}
+            disabled={true}
         >
-            <Grid 
-            container
-            direction="row"
-            >
-                <Grid item xs={6}>
-                    <Box sx={{ p: 1, flexGrow: 1, flexDirection:'column' }}>
-                        <Box> 
-                            {idNamePair.name}
+            {
+            songs.map((song, index) => (
+                <ListItem
+                key={'playlist-' +(idNamePair._id) + '-song-' + (index)}>
+                    {index + 1}.
+                    {song.title}
+                </ListItem>
+            ))
+            }
+        </List>
+    }
+
+
+
+    let cardElement = 
+        <ListItem
+        id={idNamePair._id}
+        key={idNamePair._id}
+        sx={{ marginTop: '15px', display: 'flex', p: 1 , flexDirection: 'column'}}
+        style={{ width: '100%'}}
+        button
+        // onClick={() => {console.log("Hello")}}
+        // button
+        // onClick={(event) => {
+        //     handleLoadList(event, idNamePair._id)
+        // }}
+        onDoubleClick={toggleEdit}
+        disableRipple={true}> 
+            <Box sx={{justifyContent:'space-between', width: '100%'}}>
+                <Box sx={{ p: 1, flexGrow: 1, flexDirection:'row' , float:'left'}}>
+                    {playlistName}
+                    <Box>
+                        By: Creator
+                    </Box>
+                    {expandedList}
+
+                </Box>
+                <Box sx={{ float:'right'}}>
+                    Likes and dislikes
+                </Box>
+            </Box>
+            <Box sx={{p:1, display:'flex', justifyContent:'flex-end', width: '100%'}}>
+                <Grid container>
+                    <Grid item xs={7} sx={{p:1, display:'flex'}}>
+                        <Box sx ={{alignSelf:'flex-end'}}>
+                            Published: hehe...
                         </Box>
-                        <Box>
-                            By: Creator
-                        </Box>
-                        <Box>
-                            <Typography>
-                                <strong></strong>
-                            </Typography>
-                            Expanded List goes in here! (Will be hidden if collapsed)
-                        </Box>
-                        <Box>
-                            <Typography>
-                                <strong>Published: </strong>
-                                Publish date does here!
-                            </Typography>
+                    </Grid>
+                    <Grid item xs={3} sx={{p:1, display:'flex'}}>
+                        <Box sx={{alignSelf:'flex-end'}}> Lifetime: </Box>
+                    </Grid>
+                    <Grid item xs={2}>
+                        <Box sx={{float:'right'}}>
+                            {expanded
+                            ? <IconButton onClick={handleCollapse}>
+                                <KeyboardDoubleArrowUpIcon/>
+                                
+                              </IconButton>
+                            : <IconButton onClick={(event) => {handleExpand(event,idNamePair._id)}}>
+                                <KeyboardDoubleArrowDownIcon/>
+                              </IconButton>
+                            }
                         </Box>
                         
-                    </Box>
-                </Grid>
-                <Grid item xs={6}>
-                    <Grid container>
-                        <Grid item xs={6}>Like</Grid>
-                        <Grid item xs={6}>Dislike</Grid>
                     </Grid>
-                    <Box sx={{height:'80%', backgroundColor:'pink', display:'flex',flexDirection:'column'}}>
-                        <Typography sx={{marginTop:'auto'}}>Lifetime: Lifetime views go here!</Typography>
-                    </Box>
-                    
+
                 </Grid>
-            </Grid>
-            
-            <Box sx={{ p: 1 }}>
-                <IconButton onClick={handleToggleEdit} aria-label='edit'>
-                    <EditIcon style={{fontSize:'48pt'}} />
-                </IconButton>
-            </Box>
-            <Box sx={{ p: 1 }}>
-                <IconButton onClick={(event) => {
-                        handleDeleteList(event, idNamePair._id)
-                    }} aria-label='delete'>
-                    <DeleteIcon style={{fontSize:'48pt'}} />
-                </IconButton>
+
+                
+                    
             </Box>
         </ListItem>
 
-    if (editActive) {
-        cardElement =
-            <TextField
-                margin="normal"
-                required
-                fullWidth
-                id={"list-" + idNamePair._id}
-                label="Playlist Name"
-                name="name"
-                autoComplete="Playlist Name"
-                className='list-card'
-                onKeyPress={handleKeyPress}
-                onChange={handleUpdateText}
-                defaultValue={idNamePair.name}
-                inputProps={{style: {fontSize: 48}}}
-                InputLabelProps={{style: {fontSize: 24}}}
-                autoFocus
-            />
-    }
     return (
         cardElement
     );

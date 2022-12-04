@@ -31,7 +31,8 @@ export const GlobalStoreActionType = {
     EDIT_SONG: "EDIT_SONG",
     REMOVE_SONG: "REMOVE_SONG",
     HIDE_MODALS: "HIDE_MODALS",
-    SHOW_ERROR: 'SHOW_ERROR'
+    SHOW_ERROR: 'SHOW_ERROR',
+    GET_PLAYLIST_BY_ID: "GET_PLAYLIST_BY_ID"
 }
 
 // WE'LL NEED THIS TO PROCESS TRANSACTIONS
@@ -58,6 +59,7 @@ function GlobalStoreContextProvider(props) {
         listNameActive: false,
         listIdMarkedForDeletion: null,
         listMarkedForDeletion: null,
+        recentExpandedList: null,
     });
     const history = useHistory();
 
@@ -128,6 +130,13 @@ function GlobalStoreContextProvider(props) {
                     listMarkedForDeletion: null
                 });
             }
+            case GlobalStoreActionType.GET_PLAYLIST_BY_ID: {
+                return setStore({
+                    ...store,
+                    recentlyExpandedList: payload
+                })
+            }
+
             // PREPARE TO DELETE A LIST
             case GlobalStoreActionType.MARK_LIST_FOR_DELETION: {
                 return setStore({
@@ -368,6 +377,21 @@ function GlobalStoreContextProvider(props) {
         return store.currentModal === CurrentModal.REMOVE_SONG;
     }
 
+
+
+    store.getListById = function(id) {
+        async function asyncGetList(id) {
+            let response = await api.getPlaylistById(id);
+            if(response.data.success) {
+                storeReducer({
+                    type: GlobalStoreActionType.GET_PLAYLIST_BY_ID,
+                    payload: response.data.playlist
+                })
+            }
+
+        }
+        asyncGetList(id);
+    }
     // THE FOLLOWING 8 FUNCTIONS ARE FOR COORDINATING THE UPDATING
     // OF A LIST, WHICH INCLUDES DEALING WITH THE TRANSACTION STACK. THE
     // FUNCTIONS ARE setCurrentList, addMoveItemTransaction, addUpdateItemTransaction,
