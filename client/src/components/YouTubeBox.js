@@ -3,37 +3,29 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 import StopIcon from '@mui/icons-material/Stop';
-import { Box, ButtonGroup, IconButton, Typography } from "@mui/material";
+import { Box, ButtonGroup, Grid, IconButton, Typography } from "@mui/material";
 import { useContext, useEffect, useState } from 'react';
 import ReactPlayer from 'react-player';
 import { GlobalStoreContext } from '../store';
-
 
 export default function YouTubeBox () {
 
     const { store } = useContext(GlobalStoreContext);
     const [_playing, setPlaying] = useState(false)
-    const [currentSong, setCurrentSong] = useState('i7ouv9AyB_o')   
+    const [currentSong, setCurrentSong] = useState('')   
     const [currentList, setCurrentList] = useState(['i7ouv9AyB_o']) // Get a copy of the opened playlist
     const [currentSongIndex, setCurrentSongIndex] = useState(0)
     useEffect(() => {
         console.log(store?.currentPlayingSong)
-        
-        if(store.currentList !== null){
-            let x = store.currentList?.songs.map((song, index)=> [(index + 1), song._id, song.youTubeId])
-            console.log('----------------')
-            console.log(x)
-            setCurrentList(x)
-            let y = store.currentList?.songs.map((songs) => songs._id)
-            console.log(y)
-            console.log("Song number " + (y.indexOf(store.currentPlayingSong?._id) + 1))
-            setCurrentSongIndex(y.indexOf(store.currentPlayingSong?._id)) // Index of current song playing of the playlist 0-based
+        if(store?.currentPlayingSong !== null) {
+            console.log('currplasong not null')
+            setCurrentList(store?.currentList?.songs)
+            setCurrentSongIndex(store.getCurrentSongIndex()) // Index of current song playing of the playlist 0-based
+            setCurrentSong(store.currentPlayingSong?.youTubeId)            
         }
-        console.log(store.currentPlayingSong)
 
-        setCurrentSong(store.currentPlayingSong?.youTubeId)
         
-    }, [store?.currentPlayingSong])
+    }, [store?.currentPlayingSongIndex, store?.currentPlayingSong])
 
 
     function handlePause() {
@@ -44,54 +36,68 @@ export default function YouTubeBox () {
     }
     function handleSkip() {
         console.log("Skipped from " + currentSongIndex)
-        let newSongIndex = currentSongIndex + 1
-        setCurrentSongIndex(currentSongIndex+1)
-        console.log("Handle skip")
-        console.log(currentList)
-        console.log(currentList[newSongIndex][2])
-        setCurrentSong(currentList[newSongIndex][2])
+        let newSongIndex = (currentSongIndex + 1) % currentList.length
+        setCurrentSongIndex(newSongIndex)
+        setCurrentSong(currentList[newSongIndex].youTubeId)
+        console.log(currentList, newSongIndex)
+        store.setCurrentPlayingSong(currentList[newSongIndex], newSongIndex)
     }
 
+
     return(
-        <Box>
+
+        <Box sx={{height:'100%'}}>
 
             Youtube Player Component
+            <Box sx={{backgroundColor:"green"}}>
+                 Real Debug Hours.
+                {currentSong}
+            </Box>
+
             <ReactPlayer 
             url={"https://www.youtube.com/watch?v=" + currentSong} 
             width='100%'
             playing={_playing}
+            key={currentSongIndex}
+            onEnded={handleSkip}
             
             />
-            <Box>
-                <Typography>
-                    Playlist: {store?.currentList?.name}
-                </Typography>
-                <Typography>
-                    Song #: {store.currentPlayingSong?._id}
-                </Typography>
-                <Typography>
-                    Title: {store.currentPlayingSong?.title}
-                </Typography>
-                <Typography>
-                    Artist {store.currentPlayingSong?.artist}
-                </Typography>
+            <Box sx={{display:'flex', height:'100%', marginTop:'auto'}}>
+                <Box sx={{alignSelf:'flex-end', width:'100%', p:1}}>
+                    <Box sx={{width:'100%'}}>
+                        <Grid container sx={{font:'Roboto'}}>
+                            <Grid item xs={2}>
+                                <Typography> Playlist: </Typography>
+                                <Typography> Song #: </Typography>
+                                <Typography> Title: </Typography>
+                                <Typography> Artist: </Typography>
+                            </Grid>
+                            <Grid item xs={10}>
+                                <Typography>{store?.currentList?.name}</Typography>
+                                <Typography>{store.currentPlayingSongIndex + 1}</Typography>
+                                <Typography>{store.currentPlayingSong?.title}</Typography>
+                                <Typography>{store.currentPlayingSong?.artist}</Typography>
+                            </Grid>
+                        </Grid>
+                    </Box>
+                    <Box sx={{backgroundColor:'burlywood', display:'flex', justifyContent:'center', width:'100%'}}>
+                        <ButtonGroup variant="text">
+                            <IconButton sx={{borderRadius:0}}>
+                                <SkipPreviousIcon />
+                            </IconButton>
+                            <IconButton sx={{borderRadius:0}} onClick={handlePause}>
+                                <StopIcon />
+                            </IconButton>
+                            <IconButton sx={{borderRadius:0}} onClick={handlePlay}>
+                                <PlayArrowIcon />
+                            </IconButton>
+                            <IconButton sx={{borderRadius:0}} onClick={handleSkip}>
+                                <SkipNextIcon />
+                            </IconButton>
+                        </ButtonGroup>
+                    </Box>
+                </Box>
             </Box>
-            <Box sx={{backgroundColor:'burlywood', display:'flex', justifyContent:'center'}}>
-                <ButtonGroup variant="text">
-                    <IconButton sx={{borderRadius:0}}>
-                        <SkipPreviousIcon />
-                    </IconButton>
-                    <IconButton sx={{borderRadius:0}} onClick={handlePause}>
-                        <StopIcon />
-                    </IconButton>
-                    <IconButton sx={{borderRadius:0}} onClick={handlePlay}>
-                        <PlayArrowIcon />
-                    </IconButton>
-                    <IconButton sx={{borderRadius:0}} onClick={handleSkip}>
-                        <SkipNextIcon />
-                    </IconButton>
-                </ButtonGroup>
-            </Box>
-        </Box>
+        </Box>        
     )
 }

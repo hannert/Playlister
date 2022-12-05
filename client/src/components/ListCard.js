@@ -32,6 +32,8 @@ function ListCard(props) {
             if(store.recentlyExpandedList._id === idNamePair._id){
                 console.log("MATCH FOUND!!!!")
                 setSongs(store.recentlyExpandedList.songs)
+            } else{
+                setExpanded(false)
             }
         }
     }, [store.recentlyExpandedList])
@@ -60,6 +62,7 @@ function ListCard(props) {
         //Playlist retrieved with call to store, sets recentlyExpandedList, 
         //list cards check if list is matching, then update their own state with playlist.
         console.log("Expand");
+        event.stopPropagation();
         if (!event.target.disabled) {
             let _id = event.target.id;
             if (_id.indexOf('list-card-text-') >= 0)
@@ -73,7 +76,9 @@ function ListCard(props) {
         }
         setExpanded(true);
     }
-    function handleCollapse() {
+    function handleCollapse(event) {
+        event.stopPropagation();
+
         setExpanded(false);
     }
 
@@ -110,6 +115,18 @@ function ListCard(props) {
 
     function handleAddNewSong() {
         store.addNewSong();
+    }
+    function handlePlay(event, id) {
+        if (!event.target.disabled) {
+            let _id = event.target.id;
+            if (_id.indexOf('list-card-text-') >= 0)
+                _id = ("" + _id).substring("list-card-text-".length);
+
+            console.log("Get " + event.target.id);
+
+            // Set currentlist to the clicked on one, set playing song index to 0
+            store.playPlaylist(id);
+        }    
     }
 
     let selectClass = "unselected-list-card";
@@ -156,7 +173,7 @@ function ListCard(props) {
     if (songs !== null && expanded === true) {
         expandedList = 
         <List
-            
+            sx={{height:'100%', overflow:'auto'}}
             >
             {
             songs?.map((song, index) => (
@@ -182,7 +199,7 @@ function ListCard(props) {
 
     if(expanded === true) {
         listButtons = <Box sx={{display:'flex', justifyContent:'flex-end', width:'100%', gap:1}}>
-            <Button variant='contained'>
+            <Button variant='contained' onClick={(event) => {handleDeleteList(event, idNamePair._id)}}>
                 Delete
             </Button>
             <Button variant='contained'>
@@ -198,12 +215,13 @@ function ListCard(props) {
         id={idNamePair._id}
         key={idNamePair._id}
         sx={{ marginTop: '15px', display: 'flex', p: 1 , flexDirection: 'column'}}
-        style={{ width: '100%', backgroundColor:'#D4A0DC'}}
+        style={{ maxHeight: '100%', width: '100%', backgroundColor:'#D4A0DC'}}
         // onClick={() => {console.log("Hello")}}
         // button
         // onClick={(event) => {
         //     handleLoadList(event, idNamePair._id)
         // }}
+        onClick={(event) => {handlePlay(event, idNamePair._id)}}
         > 
             <Box sx={{justifyContent:'space-between', width: '100%'}}>
                 <Box sx={{ p: 1, flexGrow: 1, flexDirection:'row' , float:'left'}}>
@@ -235,7 +253,7 @@ function ListCard(props) {
                     <Grid item xs={2}>
                         <Box sx={{float:'right'}}>
                             {expanded
-                            ? <IconButton onClick={handleCollapse}>
+                            ? <IconButton onClick={(event) => {handleCollapse(event)}}>
                                 <KeyboardDoubleArrowUpIcon/>
                                 
                               </IconButton>

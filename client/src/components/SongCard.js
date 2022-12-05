@@ -39,8 +39,10 @@ function SongCard(props) {
         store.showRemoveSongModal(index, song);
     }
     function handleClick(event) {
+        event.stopPropagation();
         if (event.detail === 1) {
-            store.setCurrentPlayingSong(song)
+            console.log(song)
+            store.setCurrentPlayingSong(song, index)
         }
         // DOUBLE CLICK IS FOR SONG EDITING
         if (event.detail === 2) {

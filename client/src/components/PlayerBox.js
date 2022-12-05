@@ -28,7 +28,7 @@ export default function PlayerBox () {
     
 
     return (
-        <Box>
+        <Box sx={{height:'100%'}}>
             PlayerBox, Have Select Btwn Video And Comment
 
             {/* <PlayerBoxToolbar /> */}
