@@ -1,21 +1,43 @@
+
+import { Button } from '@mui/material';
 import { useState } from 'react';
-import YouTube from 'react-youtube';
+import ReactPlayer from 'react-player';
 
 export default function YouTubePlayer (props) {
-    const [opts, setOpts] = useState(
-        {width:'100%', 
-        playerVars: {
-            'autoplay': 1,
-            origin: "http://www.youtube.com"
-        }
-    });
+
+    const [_playing, setPlaying] = useState(false)
+    const [playlist, setPlaylist] = useState(['i7ouv9AyB_o'])
 
     
-    let song = 'vL3r-xF6bAQ';
+    let song = 'i7ouv9AyB_o';
 
-    if(props) song = props.song
+    if(props!==null){
+        console.log(props.song)
+        song = props.song;
+    }
 
+    function handlePause() {
+        console.log("Playing")
+        setPlaying(false)
+    }
+    function handlePlay() {
+        setPlaying(true)
+    }
     return(
-        <YouTube videoId={song} opts={opts}/>
+        <div>
+            <ReactPlayer 
+            url={"https://www.youtube.com/watch?v=" + song} 
+            width='100%'
+            playing={_playing}
+            
+            />
+            <Button onClick={handlePlay}>
+                Play?
+            </Button>
+            <Button onClick={handlePause}>
+                Hello.
+            </Button>
+        </div>
+
     )
 }

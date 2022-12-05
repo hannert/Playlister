@@ -198,7 +198,7 @@ function ListCard(props) {
         id={idNamePair._id}
         key={idNamePair._id}
         sx={{ marginTop: '15px', display: 'flex', p: 1 , flexDirection: 'column'}}
-        style={{ width: '100%'}}
+        style={{ width: '100%', backgroundColor:'#D4A0DC'}}
         // onClick={() => {console.log("Hello")}}
         // button
         // onClick={(event) => {

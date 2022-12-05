@@ -18,7 +18,7 @@ export default function Terminal (){
             container
             height='100%'
             >
-                <Grid item xs={7} sx={{maxHeight:'100%', overflow:'auto'}}>
+                <Grid item xs={7} sx={{height:'100%', overflow:'auto', backgroundColor:'#B3C8DC'}}>
                         <ListBox />
                     
                 </Grid>

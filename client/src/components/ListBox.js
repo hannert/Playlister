@@ -16,7 +16,7 @@ export default function ListBox () {
     let content = "";
     if (store) {
         content = 
-        <List sx={{ height:'100%', width: '90%', left: '5%', bgcolor: 'background.paper' }}>
+        <List sx={{ height:'100%', width: '90%', left: '5%'}}>
         {
             store.idNamePairs.map((pair) => (
                 <ListCard
