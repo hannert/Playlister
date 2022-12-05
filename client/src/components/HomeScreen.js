@@ -1,8 +1,9 @@
+import { Box } from '@mui/system';
 import React, { useContext, useEffect } from 'react';
 import { GlobalStoreContext } from '../store';
 import MUIDeleteModal from './MUIDeleteModal';
-
-
+import MUIEditSongModal from './MUIEditSongModal';
+import MUIRemoveSongModal from './MUIRemoveSongModal';
 import Terminal from './Terminal.js';
 
 import AddIcon from '@mui/icons-material/Add';
@@ -22,25 +23,19 @@ const HomeScreen = () => {
     function handleCreateNewList() {
         store.createNewList();
     }
-    // let listCard = "";
-    // if (store) {
-    //     listCard = 
-    //         <List sx={{ width: '90%', left: '5%', bgcolor: 'background.paper' }}>
-    //         {
-    //             store.idNamePairs.map((pair) => (
-    //                 <ListCard
-    //                     key={pair._id}
-    //                     idNamePair={pair}
-    //                     selected={false}
-    //                 />
-    //             ))
-    //         }
-    //         </List>;
-    // }
+    let modalJSX = '';
+    if (store.isEditSongModalOpen()) {
+        modalJSX = <MUIEditSongModal />;
+    }
+    else if (store.isRemoveSongModalOpen()) {
+        modalJSX = <MUIRemoveSongModal />;
+    }
+
+
     return (
-        <div id="playlist-selector">
+        <Box id="playlist-selector">
             Home screen
-            <div id="list-selector-heading">
+            <Box id="list-selector-heading">
             <Fab 
                 color="primary" 
                 aria-label="add"
@@ -50,12 +45,15 @@ const HomeScreen = () => {
                 <AddIcon />
             </Fab>
                 <Typography variant="h2">Your Lists</Typography>
-            </div>
-            <div id="list-selector-list">
+            </Box>
+            <Box id="list-selector-list"
+            >   
                 <Terminal/>
+                
                 <MUIDeleteModal />
-            </div>
-        </div>)
+                {modalJSX}
+            </Box>
+        </Box>)
 }
 
 export default HomeScreen;

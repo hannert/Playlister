@@ -1,10 +1,12 @@
+import AddIcon from '@mui/icons-material/Add';
 import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
 import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
-import { Grid, IconButton, List, ListItem } from '@mui/material';
+import { Button, Grid, IconButton, List } from '@mui/material';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { useContext, useEffect, useState } from 'react';
 import { GlobalStoreContext } from '../store';
+import SongCard from './SongCard';
 /*
     This is a card in our list of top 5 lists. It lets select
     a list for editing and it has controls for changing its 
@@ -106,6 +108,10 @@ function ListCard(props) {
         setText(event.target.value);
     }
 
+    function handleAddNewSong() {
+        store.addNewSong();
+    }
+
     let selectClass = "unselected-list-card";
     if (selected) {
         selectClass = "selected-list-card";
@@ -146,53 +152,77 @@ function ListCard(props) {
         expandedList = <Box sx={{backgroundColor:'burlywood'}}> Expanded list! </Box>
     }
 
+    // Map the data to SongCard components
     if (songs !== null && expanded === true) {
-        expandedList = <List
-            onClick={handleInner}
-            disabled={true}
-        >
+        expandedList = 
+        <List
+            
+            >
             {
-            songs.map((song, index) => (
-                <ListItem
-                key={'playlist-' +(idNamePair._id) + '-song-' + (index)}>
-                    {index + 1}.
-                    {song.title}
-                </ListItem>
+            songs?.map((song, index) => (
+                <SongCard
+                    id={'playlist-song-' + (index)}
+                    key={'playlist-song-' + (index)}
+                    index={index}
+                    song={song}
+                />
             ))
             }
+            <Button 
+            variant='contained' 
+            sx={{p: 1, width:'95%', justifySelf:'center'}}
+            onClick={handleAddNewSong}
+            >
+                <AddIcon/>
+            </Button>
         </List>
     }
 
+    let listButtons = <Box></Box>
+
+    if(expanded === true) {
+        listButtons = <Box sx={{display:'flex', justifyContent:'flex-end', width:'100%', gap:1}}>
+            <Button variant='contained'>
+                Delete
+            </Button>
+            <Button variant='contained'>
+                Duplicate
+            </Button>
+
+        </Box>
+    }
 
 
     let cardElement = 
-        <ListItem
+        <Box
         id={idNamePair._id}
         key={idNamePair._id}
         sx={{ marginTop: '15px', display: 'flex', p: 1 , flexDirection: 'column'}}
         style={{ width: '100%'}}
-        button
         // onClick={() => {console.log("Hello")}}
         // button
         // onClick={(event) => {
         //     handleLoadList(event, idNamePair._id)
         // }}
-        onDoubleClick={toggleEdit}
-        disableRipple={true}> 
+        > 
             <Box sx={{justifyContent:'space-between', width: '100%'}}>
                 <Box sx={{ p: 1, flexGrow: 1, flexDirection:'row' , float:'left'}}>
-                    {playlistName}
+                    <Box onDoubleClick={toggleEdit}>
+                        {playlistName}
+                    </Box>
+                    
                     <Box>
                         By: Creator
                     </Box>
-                    {expandedList}
-
                 </Box>
                 <Box sx={{ float:'right'}}>
                     Likes and dislikes
                 </Box>
             </Box>
+            {expandedList}
+            {listButtons}
             <Box sx={{p:1, display:'flex', justifyContent:'flex-end', width: '100%'}}>
+                
                 <Grid container>
                     <Grid item xs={7} sx={{p:1, display:'flex'}}>
                         <Box sx ={{alignSelf:'flex-end'}}>
@@ -213,6 +243,7 @@ function ListCard(props) {
                                 <KeyboardDoubleArrowDownIcon/>
                               </IconButton>
                             }
+                            
                         </Box>
                         
                     </Grid>
@@ -222,7 +253,7 @@ function ListCard(props) {
                 
                     
             </Box>
-        </ListItem>
+        </Box>
 
     return (
         cardElement

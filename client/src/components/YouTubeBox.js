@@ -4,26 +4,40 @@ import SkipNextIcon from '@mui/icons-material/SkipNext';
 import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 import StopIcon from '@mui/icons-material/Stop';
 import { Box, ButtonGroup, IconButton, Typography } from "@mui/material";
+import { useContext, useEffect, useState } from 'react';
+import { GlobalStoreContext } from '../store';
+import YouTubePlayer from './YouTubePlayer';
+
 
 export default function YouTubeBox () {
+
+    const { store } = useContext(GlobalStoreContext);
+
+    const [currentSong, setCurrentSong] = useState(null)
+    useEffect(() => {
+        console.log(store?.currentPlayingSong)
+        setCurrentSong(store.currentPlayingSong?._id)
+    }, [store?.currentPlayingSong])
 
     return(
         <Box>
 
             Youtube Player Component
-
+            <YouTubePlayer 
+                song={currentSong}
+            />
             <Box>
                 <Typography>
-                    Playlist:
+                    Playlist: {store?.currentList?.name}
                 </Typography>
                 <Typography>
-                    Song #:
+                    Song #: {store.currentPlayingSong?._id}
                 </Typography>
                 <Typography>
-                    Title:
+                    Title: {store.currentPlayingSong?.title}
                 </Typography>
                 <Typography>
-                    Artist
+                    Artist {store.currentPlayingSong?.artist}
                 </Typography>
             </Box>
             <Box sx={{backgroundColor:'burlywood', display:'flex', justifyContent:'center'}}>

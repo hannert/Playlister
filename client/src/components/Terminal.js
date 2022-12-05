@@ -1,5 +1,4 @@
-import { Grid } from "@mui/material";
-
+import { Box, Grid } from "@mui/material";
 
 import ListBox from './ListBox';
 import PlayerBox from './PlayerBox';
@@ -11,15 +10,24 @@ export default function Terminal (){
 
 
     return (
-        <Grid
-        container>
-            <Grid item xs={7}>
-                <ListBox />
-            </Grid>
-            <Grid item xs={5}>
-                <PlayerBox /> 
-            </Grid>
-  
-        </Grid>
+        <Box 
+        id='Terminal'
+        height='100%'
+        >
+           <Grid
+            container
+            height='100%'
+            >
+                <Grid item xs={7} sx={{maxHeight:'100%', overflow:'auto'}}>
+                        <ListBox />
+                    
+                </Grid>
+                <Grid item xs={5}>
+                    <PlayerBox /> 
+                </Grid>
+    
+            </Grid> 
+        </Box>
+        
     )
 }
