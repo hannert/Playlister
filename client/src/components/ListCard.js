@@ -31,6 +31,7 @@ function ListCard(props) {
             // If the newly queried list is the same one as this list card
             if(store.recentlyExpandedList._id === idNamePair._id){
                 console.log("MATCH FOUND!!!!")
+                console.log(store.recentlyExpandedList)
                 setSongs(store.recentlyExpandedList.songs)
             } else{
                 setExpanded(false)
@@ -113,7 +114,8 @@ function ListCard(props) {
         setText(event.target.value);
     }
 
-    function handleAddNewSong() {
+    function handleAddNewSong(event) {
+        event.stopPropagation();
         store.addNewSong();
     }
     function handlePlay(event, id) {
@@ -128,6 +130,20 @@ function ListCard(props) {
             store.playPlaylist(id);
         }    
     }
+
+    function handleUndo(event) {
+        event.stopPropagation();
+        console.log("Undo")
+    }
+    function handleRedo(event) {
+        event.stopPropagation();
+        console.log("Redo")
+    }
+    function handlePublish(event) {
+        event.stopPropagation();
+        console.log("Publish")
+    }
+
 
     let selectClass = "unselected-list-card";
     if (selected) {
@@ -187,8 +203,8 @@ function ListCard(props) {
             }
             <Button 
             variant='contained' 
-            sx={{p: 1, width:'95%', justifySelf:'center'}}
-            onClick={handleAddNewSong}
+            sx={{p: 1, width:'100%', justifySelf:'center'}}
+            onClick={(event) => {handleAddNewSong(event)}}
             >
                 <AddIcon/>
             </Button>
@@ -197,8 +213,33 @@ function ListCard(props) {
 
     let listButtons = <Box></Box>
 
+    // If list is expanded, find out if the list is public or not
+    // If list is not public, give user option to edit the playlist
+    // If list is public, allow users to only play, delete, or duplicate
     if(expanded === true) {
+        let transactions = ""
+        let publishButton = ""
+
+        // If the current open list is public
+        if(store?.currentList?.public === false){
+            transactions = <Box sx={{marginRight:'auto', display:'flex', gap:1}}>
+                <Button variant='contained' onClick={(event) => {handleUndo(event)}} >
+                    Undo
+                </Button>
+                <Button variant='contained' onClick={(event) => {handleRedo(event)}}>
+                    Redo
+                </Button>
+            </Box>
+            publishButton = <Button variant='contained' onClick={(event) => {handlePublish(event)}}>
+                Publish
+            </Button>
+
+        }
+
+
         listButtons = <Box sx={{display:'flex', justifyContent:'flex-end', width:'100%', gap:1}}>
+            {transactions}            
+            {publishButton}
             <Button variant='contained' onClick={(event) => {handleDeleteList(event, idNamePair._id)}}>
                 Delete
             </Button>
@@ -216,11 +257,6 @@ function ListCard(props) {
         key={idNamePair._id}
         sx={{ marginTop: '15px', display: 'flex', p: 1 , flexDirection: 'column'}}
         style={{ maxHeight: '100%', width: '100%', backgroundColor:'#D4A0DC'}}
-        // onClick={() => {console.log("Hello")}}
-        // button
-        // onClick={(event) => {
-        //     handleLoadList(event, idNamePair._id)
-        // }}
         onClick={(event) => {handlePlay(event, idNamePair._id)}}
         > 
             <Box sx={{justifyContent:'space-between', width: '100%'}}>
