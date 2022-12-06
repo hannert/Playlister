@@ -25,12 +25,12 @@ function SongCardLight(props) {
             className={cardClass}
             onClick={handleClick}
         >
-            {index + 1}.
+            
             <Typography
             id={'song-' + index + '-link'}
             >
                 
-                {song.title} by {song.artist}
+                {index + 1}.{song.title} by {song.artist}
             </Typography>
         </Typography>
     );
