@@ -14,6 +14,7 @@ export default function Terminal (){
         id='Terminal'
         height='100%'
         >
+            Terminal
            <Grid
             container
             height='100%'

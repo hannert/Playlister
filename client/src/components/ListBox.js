@@ -12,7 +12,7 @@ import ListCard from './ListCard.js';
 
 export default function ListBox () {
     const { store } = useContext(GlobalStoreContext);
-
+    
     let content = "";
     if (store) {
         content = 

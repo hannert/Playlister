@@ -87,22 +87,40 @@ getPlaylistById = async (req, res) => {
         }
         console.log("Found list: " + JSON.stringify(list));
 
-        // DOES THIS LIST BELONG TO THIS USER?
-        async function asyncFindUser(list) {
-            await User.findOne({ email: list.ownerEmail }, (err, user) => {
-                console.log("user._id: " + user._id);
-                console.log("req.userId: " + req.userId);
-                if (user._id == req.userId) {
-                    console.log("correct user!");
-                    return res.status(200).json({ success: true, playlist: list })
-                }
-                else {
-                    console.log("incorrect user!");
-                    return res.status(400).json({ success: false, description: "authentication error" });
-                }
+        // IS THIS PLAYLIST PUBLIC?
+        if (list.public === false) {
+            // PLAYLIST NOT PUBLIC:
+            // DOES THIS PLAYLIST BELONG TO THE USER?
+            async function asyncFindUser(list) {
+                await User.findOne({ email: list.ownerEmail }, (err, user) => {
+                    if (err) {
+                        return res.status(400).json({ success: false, error: err });
+                    }
+                    console.log("user._id: " + user._id);
+                    console.log("req.userId: " + req.userId);
+                    if (user._id == req.userId) {
+                        console.log("correct user!");
+                        return res.status(200).json({ success: true, playlist: list });
+                    }
+                    else {
+                        console.log("incorrect user!");
+                        return res.status(400).json({ success: false, description: "authentication error" });
+                    }
+                })
+            }
+            asyncFindUser(list).catch(error => {
+                console.log("FAILURE: " + JSON.stringify(error));
+                return res.status(404).json({
+                    error,
+                    message: 'Error!',
+                })
             });
         }
-        asyncFindUser(list);
+        else{
+            return res.status(200).json({success: true, playlist: list});
+        }
+        
+        
     }).catch(err => console.log(err))
 }
 getPlaylistPairs = async (req, res) => {
@@ -142,7 +160,7 @@ getPlaylistPairs = async (req, res) => {
     }).catch(err => console.log(err))
 }
 getPlaylists = async (req, res) => {
-    await Playlist.find({}, (err, playlists) => {
+    await Playlist.find({ public: true }, (err, playlists) => {
         if (err) {
             return res.status(400).json({ success: false, error: err })
         }

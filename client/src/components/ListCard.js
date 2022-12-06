@@ -20,39 +20,22 @@ function ListCard(props) {
     const [editActive, setEditActive] = useState(false);
     const [expanded, setExpanded] = useState(false);
     const [songs, setSongs] = useState(null);
+    const [isPublic, setPublic] = useState(false);
     const [text, setText] = useState("");
     const { idNamePair, selected } = props;
 
     useEffect(() => {
-        console.log("expanded list changed")
-        console.log(store.recentlyExpandedList)
-        console.log(idNamePair._id)
-        
         if(store.recentlyExpandedList){ 
             // If the newly queried list is the same one as this list card
             if(store.recentlyExpandedList._id === idNamePair._id){
-                console.log("MATCH FOUND!!!!")
-                console.log(store.recentlyExpandedList)
                 setSongs(store.recentlyExpandedList.songs)
+                setPublic(store.recentlyExpandedList.public)
             } else{
                 setExpanded(false)
             }
         }
     }, [store.recentlyExpandedList])
 
-    function handleLoadList(event, id) {
-        console.log("handleLoadList for " + id);
-        if (!event.target.disabled) {
-            let _id = event.target.id;
-            if (_id.indexOf('list-card-text-') >= 0)
-                _id = ("" + _id).substring("list-card-text-".length);
-
-            console.log("load " + event.target.id);
-
-            // CHANGE THE CURRENT LIST
-            store.setCurrentList(id);
-        }
-    }
 
     function handleToggleEdit(event) {
         event.stopPropagation();
@@ -66,15 +49,7 @@ function ListCard(props) {
         console.log("Expand");
         event.stopPropagation();
         if (!event.target.disabled) {
-            let _id = event.target.id;
-            if (_id.indexOf('list-card-text-') >= 0)
-                _id = ("" + _id).substring("list-card-text-".length);
-
-            console.log("Get " + event.target.id);
-
-            // CHANGE THE CURRENT LIST
             let list = store.getListById(id);
-            console.log(list)
         }
         setExpanded(true);
     }
@@ -183,13 +158,10 @@ function ListCard(props) {
     let expandedList = 
         <Box></Box>
 
-    if (expanded === true) {
-        expandedList = <Box sx={{backgroundColor:'burlywood'}}> Expanded list! </Box>
-    }
-
     // Map the data to SongCard components
     if (songs !== null && expanded === true) {
-        if(store?.currentList?.public === true){
+        if(isPublic === true){
+            console.log("This list is public...")
             // The expanded list is public, so it can't be edited in any way
             expandedList = 
             <List
@@ -209,7 +181,8 @@ function ListCard(props) {
             </List>
 
         }
-        if(store?.currentList?.public === false){
+        else if(isPublic === false){
+            console.log("This list is NOT pulic...")
             expandedList = 
             <List
                 sx={{height:'100%', overflow:'auto'}}
@@ -281,7 +254,7 @@ function ListCard(props) {
         <Box
         id={idNamePair._id}
         key={idNamePair._id}
-        sx={{ marginTop: '15px', display: 'flex', p: 1 , flexDirection: 'column'}}
+        sx={{ marginTop: '15px', display: 'flex', p: 1 , flexDirection: 'column', transition:'all 0.5s ease'}}
         style={{ maxHeight: '100%', width: '100%', backgroundColor:'#D4A0DC'}}
         onClick={(event) => {handlePlay(event, idNamePair._id)}}
         > 

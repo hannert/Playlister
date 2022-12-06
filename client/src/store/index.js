@@ -36,7 +36,8 @@ export const GlobalStoreActionType = {
     GET_PLAYLIST_BY_ID: "GET_PLAYLIST_BY_ID",
     SET_CURRENT_PLAYING_SONG: "SET_CURRENT_PLAYING_SONG",
     PLAY_PLAYLIST: "PLAY_PLAYLIST",
-    SKIP_SONG: "SKIP_SONG"
+    SKIP_SONG: "SKIP_SONG",
+    LOAD_ALL_PLAYLISTS: "LOAD_ALL_PLAYLISTS"
 }
 
 // WE'LL NEED THIS TO PROCESS TRANSACTIONS
@@ -49,12 +50,20 @@ const CurrentModal = {
     REMOVE_SONG : "REMOVE_SONG"
 }
 
+const CurrentTab = {
+    HOME: "HOME",
+    ALL: "ALL",
+    USER: "USER"
+}
+
+
 // WITH THIS WE'RE MAKING OUR GLOBAL DATA STORE
 // AVAILABLE TO THE REST OF THE APPLICATION
 function GlobalStoreContextProvider(props) {
     // THESE ARE ALL THE THINGS OUR DATA STORE WILL MANAGE
     const [store, setStore] = useState({
         currentModal : CurrentModal.NONE,
+        currentTab : CurrentModal.HOME,
         idNamePairs: [],
         currentList: null,
         currentSongIndex : -1,
@@ -144,6 +153,15 @@ function GlobalStoreContextProvider(props) {
                     listMarkedForDeletion: null
                 });
             }
+
+            // GET ALL PUBLIC PLAYLISTS
+            case GlobalStoreActionType.LOAD_ALL_PLAYLISTS: {
+                return setStore({
+                    ...store,
+                    idNamePairs: payload,
+                })
+            }
+
             case GlobalStoreActionType.GET_PLAYLIST_BY_ID: {
                 return setStore({
                     ...store,
@@ -266,6 +284,7 @@ function GlobalStoreContextProvider(props) {
                     listMarkedForDeletion: null
                 });
             }
+
             default:
                 return store;
         }
@@ -369,6 +388,8 @@ function GlobalStoreContextProvider(props) {
             const response = await api.getPlaylistPairs();
             if (response.data.success) {
                 let pairsArray = response.data.idNamePairs;
+                console.log("Pairs Array")
+                console.log(pairsArray)
                 storeReducer({
                     type: GlobalStoreActionType.LOAD_ID_NAME_PAIRS,
                     payload: pairsArray
@@ -379,6 +400,25 @@ function GlobalStoreContextProvider(props) {
             }
         }
         asyncLoadIdNamePairs();
+    }
+
+    store.getAllPublicPlaylists = function () {
+        console.log("Getting all playlists");
+        async function asyncGetAllPlaylists() {
+            const response = await api.getPlaylists();
+            if (response.data.success) {
+                console.log(response.data.data)
+                let pairsArray = response.data.data;
+                storeReducer({
+                    type: GlobalStoreActionType.LOAD_ALL_PLAYLISTS,
+                    payload: pairsArray
+                })
+                console.log(pairsArray)
+            }
+
+        }
+        asyncGetAllPlaylists();
+
     }
 
     // THE FOLLOWING 5 FUNCTIONS ARE FOR COORDINATING THE DELETION
