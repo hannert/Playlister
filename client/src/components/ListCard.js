@@ -7,6 +7,7 @@ import TextField from '@mui/material/TextField';
 import { useContext, useEffect, useState } from 'react';
 import { GlobalStoreContext } from '../store';
 import SongCard from './SongCard';
+import SongCardLight from './SongCardLight';
 /*
     This is a card in our list of top 5 lists. It lets select
     a list for editing and it has controls for changing its 
@@ -141,7 +142,8 @@ function ListCard(props) {
     }
     function handlePublish(event) {
         event.stopPropagation();
-        console.log("Publish")
+        console.log("Publish " + idNamePair._id)
+        store.publishPlaylist(idNamePair._id)
     }
 
 
@@ -187,28 +189,50 @@ function ListCard(props) {
 
     // Map the data to SongCard components
     if (songs !== null && expanded === true) {
-        expandedList = 
-        <List
-            sx={{height:'100%', overflow:'auto'}}
+        if(store?.currentList?.public === true){
+            // The expanded list is public, so it can't be edited in any way
+            expandedList = 
+            <List
+                sx={{height:'100%', overflow:'auto'}}
             >
-            {
-            songs?.map((song, index) => (
-                <SongCard
+                {
+                songs?.map((song, index) => (
+                    <SongCardLight
                     id={'playlist-song-' + (index)}
                     key={'playlist-song-' + (index)}
                     index={index}
                     song={song}
-                />
-            ))
-            }
-            <Button 
-            variant='contained' 
-            sx={{p: 1, width:'100%', justifySelf:'center'}}
-            onClick={(event) => {handleAddNewSong(event)}}
-            >
-                <AddIcon/>
-            </Button>
-        </List>
+                    />
+                ))
+                }
+
+            </List>
+
+        }
+        if(store?.currentList?.public === false){
+            expandedList = 
+            <List
+                sx={{height:'100%', overflow:'auto'}}
+                >
+                {
+                songs?.map((song, index) => (
+                    <SongCard
+                        id={'playlist-song-' + (index)}
+                        key={'playlist-song-' + (index)}
+                        index={index}
+                        song={song}
+                    />
+                ))
+                }
+                <Button 
+                variant='contained' 
+                sx={{p: 1, width:'100%', justifySelf:'center'}}
+                onClick={(event) => {handleAddNewSong(event)}}
+                >
+                    <AddIcon/>
+                </Button>
+            </List>
+        }
     }
 
     let listButtons = <Box></Box>
@@ -222,6 +246,8 @@ function ListCard(props) {
 
         // If the current open list is public
         if(store?.currentList?.public === false){
+            console.log(store?.currentList)
+            console.log("currentlist is not public")
             transactions = <Box sx={{marginRight:'auto', display:'flex', gap:1}}>
                 <Button variant='contained' onClick={(event) => {handleUndo(event)}} >
                     Undo

@@ -184,6 +184,7 @@ updatePlaylist = async (req, res) => {
                     console.log("correct user!");
                     console.log("req.body.name: " + req.body.name);
 
+                    if(body.playlist.public === true) list.public = true;
                     list.name = body.playlist.name;
                     list.songs = body.playlist.songs;
                     list

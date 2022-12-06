@@ -22,6 +22,7 @@ console.log("create GlobalStoreContext");
 // DATA STORE STATE THAT CAN BE PROCESSED
 export const GlobalStoreActionType = {
     CHANGE_LIST_NAME: "CHANGE_LIST_NAME",
+    PUBLISH_PLAYLIST: "PUBLISH_PLAYLIST",
     CLOSE_CURRENT_LIST: "CLOSE_CURRENT_LIST",
     CREATE_NEW_LIST: "CREATE_NEW_LIST",
     LOAD_ID_NAME_PAIRS: "LOAD_ID_NAME_PAIRS",
@@ -95,6 +96,7 @@ function GlobalStoreContextProvider(props) {
                     listMarkedForDeletion: null
                 });
             }
+            
             // STOP EDITING THE CURRENT LIST
             case GlobalStoreActionType.CLOSE_CURRENT_LIST: {
                 return setStore({
@@ -134,7 +136,6 @@ function GlobalStoreContextProvider(props) {
 
                     currentModal : CurrentModal.NONE,
                     idNamePairs: payload,
-                    currentList: null,
                     currentSongIndex: -1,
                     currentSong: null,
                     newListCounter: store.newListCounter,
@@ -180,10 +181,9 @@ function GlobalStoreContextProvider(props) {
             // PREPARE TO DELETE A LIST
             case GlobalStoreActionType.MARK_LIST_FOR_DELETION: {
                 return setStore({
-
+                    ...store,
                     currentModal : CurrentModal.DELETE_LIST,
                     idNamePairs: store.idNamePairs,
-                    currentList: null,
                     currentSongIndex: -1,
                     currentSong: null,
                     newListCounter: store.newListCounter,
@@ -196,7 +196,6 @@ function GlobalStoreContextProvider(props) {
             case GlobalStoreActionType.SET_CURRENT_LIST: {
                 return setStore({
                     ...store,
-
                     currentModal : CurrentModal.NONE,
                     idNamePairs: store.idNamePairs,
                     currentList: payload,
@@ -211,6 +210,7 @@ function GlobalStoreContextProvider(props) {
             // START EDITING A LIST NAME
             case GlobalStoreActionType.SET_LIST_NAME_EDIT_ACTIVE: {
                 return setStore({
+                    ...store,
                     currentModal : CurrentModal.NONE,
                     idNamePairs: store.idNamePairs,
                     currentList: payload,
@@ -226,7 +226,6 @@ function GlobalStoreContextProvider(props) {
             case GlobalStoreActionType.EDIT_SONG: {
                 return setStore({
                     ...store,
-
                     currentModal : CurrentModal.EDIT_SONG,
                     idNamePairs: store.idNamePairs,
                     currentList: store.currentList,
@@ -240,7 +239,7 @@ function GlobalStoreContextProvider(props) {
             }
             case GlobalStoreActionType.REMOVE_SONG: {
                 return setStore({
-
+                    ...store,
                     currentModal : CurrentModal.REMOVE_SONG,
                     idNamePairs: store.idNamePairs,
                     currentList: store.currentList,
@@ -254,6 +253,8 @@ function GlobalStoreContextProvider(props) {
             }
             case GlobalStoreActionType.HIDE_MODALS: {
                 return setStore({
+                    ...store,
+
                     currentModal : CurrentModal.NONE,
                     idNamePairs: store.idNamePairs,
                     currentList: store.currentList,
@@ -305,6 +306,28 @@ function GlobalStoreContextProvider(props) {
             }
         }
         asyncChangeListName(id);
+    }
+
+    store.publishPlaylist = function (id) {
+        // GET THE LIST
+        async function asyncPublishPlaylist(id) {
+            let response = await api.getPlaylistById(id);
+            if (response.data.success) {
+                let playlist = response.data.playlist;
+                console.log(playlist)
+                playlist.public = true;
+                console.log(playlist)
+                async function updateList(playlist) {
+                    response = await api.updatePlaylistById(playlist._id, playlist);
+                    if (response.data.success) {
+                        console.log("Success in publishing playlist!!!!1");
+                        store.updateCurrentList();
+                    }
+                }
+                updateList(playlist);
+            }
+        }
+        asyncPublishPlaylist(id);
     }
 
     // THIS FUNCTION PROCESSES CLOSING THE CURRENTLY LOADED LIST

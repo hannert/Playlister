@@ -62,10 +62,15 @@ export default function YouTubeBox () {
             onEnded={handleSkip}
             
             />
-            <Box sx={{display:'flex', height:'100%', marginTop:'auto'}}>
+            <Box id='bottom-half' sx={{display:'flex', height:'100%', marginTop:'auto'}}>
                 <Box sx={{alignSelf:'flex-end', width:'100%', p:1}}>
-                    <Box sx={{width:'100%'}}>
+                    {
+                    currentSong
+                    ?<Box sx={{width:'100%'}}>
                         <Grid container sx={{font:'Roboto'}}>
+                            <Grid item xs={12} sx={{display:'flex', justifyContent:'center'}}>
+                                Now Playing
+                            </Grid>
                             <Grid item xs={2}>
                                 <Typography> Playlist: </Typography>
                                 <Typography> Song #: </Typography>
@@ -80,6 +85,9 @@ export default function YouTubeBox () {
                             </Grid>
                         </Grid>
                     </Box>
+                    : <Box> </Box>
+                    }
+                    
                     <Box sx={{backgroundColor:'burlywood', display:'flex', justifyContent:'center', width:'100%'}}>
                         <ButtonGroup variant="text">
                             <IconButton sx={{borderRadius:0}}>

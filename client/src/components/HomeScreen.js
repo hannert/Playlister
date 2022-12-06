@@ -5,6 +5,7 @@ import MUIDeleteModal from './MUIDeleteModal';
 import MUIEditSongModal from './MUIEditSongModal';
 import MUIRemoveSongModal from './MUIRemoveSongModal';
 import Terminal from './Terminal.js';
+import AppToolbar from './AppToolbar.js'
 
 import AddIcon from '@mui/icons-material/Add';
 import Fab from '@mui/material/Fab';
@@ -35,6 +36,7 @@ const HomeScreen = () => {
     return (
         <Box id="playlist-selector">
             Home screen
+            <AppToolbar />
             <Box id="list-selector-heading">
             <Fab 
                 color="primary" 
