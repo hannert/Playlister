@@ -20,7 +20,6 @@ function ListCard(props) {
     const [editActive, setEditActive] = useState(false);
     const [expanded, setExpanded] = useState(false);
     const [songs, setSongs] = useState(null);
-    const [isPublic, setPublic] = useState(false);
     const [text, setText] = useState("");
     const { idNamePair, selected } = props;
 
@@ -29,13 +28,11 @@ function ListCard(props) {
             // If the newly queried list is the same one as this list card
             if(store.recentlyExpandedList._id === idNamePair._id){
                 setSongs(store.recentlyExpandedList.songs)
-                setPublic(store.recentlyExpandedList.public)
             } else{
                 setExpanded(false)
             }
         }
     }, [store.recentlyExpandedList])
-
 
     function handleToggleEdit(event) {
         event.stopPropagation();
@@ -160,7 +157,7 @@ function ListCard(props) {
 
     // Map the data to SongCard components
     if (songs !== null && expanded === true) {
-        if(isPublic === true){
+        if(idNamePair.public === true){
             console.log("This list is public...")
             // The expanded list is public, so it can't be edited in any way
             expandedList = 
@@ -181,7 +178,7 @@ function ListCard(props) {
             </List>
 
         }
-        else if(isPublic === false){
+        else if(idNamePair.public === false){
             console.log("This list is NOT pulic...")
             expandedList = 
             <List
@@ -218,8 +215,9 @@ function ListCard(props) {
         let publishButton = ""
 
         // If the current open list is public
-        if(store?.currentList?.public === false){
+        if(idNamePair.public === false){
             console.log(store?.currentList)
+            console.log(idNamePair)
             console.log("currentlist is not public")
             transactions = <Box sx={{marginRight:'auto', display:'flex', gap:1}}>
                 <Button variant='contained' onClick={(event) => {handleUndo(event)}} >
@@ -249,6 +247,16 @@ function ListCard(props) {
         </Box>
     }
 
+    let publishDate = ""
+
+    if(idNamePair.published !== 'n/a'){
+        publishDate = 
+        <Box>
+            Published: {idNamePair.published}
+        </Box>;
+    }
+
+
 
     let cardElement = 
         <Box
@@ -265,7 +273,8 @@ function ListCard(props) {
                     </Box>
                     
                     <Box>
-                        By: Creator
+                        By: {idNamePair.ownerUsername}
+                        
                     </Box>
                 </Box>
                 <Box sx={{ float:'right'}}>
@@ -279,7 +288,7 @@ function ListCard(props) {
                 <Grid container>
                     <Grid item xs={7} sx={{p:1, display:'flex'}}>
                         <Box sx ={{alignSelf:'flex-end'}}>
-                            Published: hehe...
+                            {publishDate}
                         </Box>
                     </Grid>
                     <Grid item xs={3} sx={{p:1, display:'flex'}}>
