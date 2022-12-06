@@ -175,7 +175,23 @@ getPlaylists = async (req, res) => {
         return res.status(200).json({ success: true, data: playlists })
     }).catch(err => console.log(err))
 }
+getPlaylistsFromUser = async (req, res) => {
+    let queryUsername = req.query
+    console.log("query name:")
+    console.log(req.query.userName)
+    await Playlist.find({ ownerUsername: req.query.userName, public:true}, (err, playlists) => {
+        if (err) {
+            return res.status(400).json({ success: false, error: err })
+        }
+
+        return res.status(200).json({ success: true, data: playlists })
+    }).catch(err => console.log(err))
+
+}
+
+
 updatePlaylist = async (req, res) => {
+    console.log("UPDATE PLAYLIST -------------------")
     const body = req.body
     console.log("updatePlaylist: " + JSON.stringify(body));
     console.log("req.body.name: " + req.body.name);
@@ -242,5 +258,6 @@ module.exports = {
     getPlaylistById,
     getPlaylistPairs,
     getPlaylists,
+    getPlaylistsFromUser,
     updatePlaylist
 }

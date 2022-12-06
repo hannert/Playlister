@@ -1,5 +1,5 @@
 import GroupsIcon from '@mui/icons-material/Groups';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { GlobalStoreContext } from '../store';
 
 import HomeIcon from '@mui/icons-material/Home';
@@ -10,6 +10,7 @@ import { Box, Button, Grid, IconButton, TextField, ToggleButton, ToggleButtonGro
 export default function AppToolbar () {
     const { store } = useContext(GlobalStoreContext);
     const [alignment, setAlignment] = React.useState('HOME');
+    const [text, setText] = useState("");
 
     const handleChange = (e, newAlignment) => {
         if(newAlignment !== null)
@@ -24,7 +25,24 @@ export default function AppToolbar () {
         console.log("ALL clicked")
         store.getAllPublicPlaylists();
     }
-
+    function handleUser() {
+        console.log("User clicked")
+        store.getUserPlaylists('');
+    }
+    function handleKeyPress(event) {
+        if (event.code === "Enter") {
+            console.log("Search for " + text)
+            if(alignment === 'USER'){
+                store.getUserPlaylists(text)
+            }
+            if(alignment === 'ALL'){
+                store.getPlaylistsByName(text)
+            }
+        }
+    }
+    function handleUpdateText(event) {
+        setText(event.target.value);
+    }
 
 
     return (
@@ -38,14 +56,15 @@ export default function AppToolbar () {
                     >
                         <ToggleButton value='HOME' onClick={handleHome}><HomeIcon/></ToggleButton>
                         <ToggleButton value='ALL' onClick={handleAll}><GroupsIcon/></ToggleButton>
-                        <ToggleButton value='USER'><PersonIcon/></ToggleButton>
+                        <ToggleButton value='USER' onClick={handleUser}><PersonIcon/></ToggleButton>
                     </ToggleButtonGroup>
 
                 </Grid>
                 <Grid item xs={6}>
                     <TextField
                     fullWidth
-                    
+                    onKeyPress={handleKeyPress}
+                    onChange={handleUpdateText}
                     >
 
                     </TextField>

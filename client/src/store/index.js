@@ -37,7 +37,8 @@ export const GlobalStoreActionType = {
     SET_CURRENT_PLAYING_SONG: "SET_CURRENT_PLAYING_SONG",
     PLAY_PLAYLIST: "PLAY_PLAYLIST",
     SKIP_SONG: "SKIP_SONG",
-    LOAD_ALL_PLAYLISTS: "LOAD_ALL_PLAYLISTS"
+    LOAD_ALL_PLAYLISTS: "LOAD_ALL_PLAYLISTS",
+    GET_PLAYLISTS_BY_USER: "GET_PLAYLISTS_BY_USER"
 }
 
 // WE'LL NEED THIS TO PROCESS TRANSACTIONS
@@ -430,6 +431,7 @@ function GlobalStoreContextProvider(props) {
         asyncLoadIdNamePairs();
     }
 
+    // This function will get all public playlists in the database
     store.getAllPublicPlaylists = function () {
         console.log("Getting all playlists");
         async function asyncGetAllPlaylists() {
@@ -447,6 +449,24 @@ function GlobalStoreContextProvider(props) {
         }
         asyncGetAllPlaylists();
 
+    }
+
+    store.getUserPlaylists = function (userName) {
+        console.log("Getting playlists from user:" + userName);
+        async function asyncGetAllPlaylists(userName) {
+            const response = await api.getPlaylistsFromUser(userName);
+            if (response.data.success) {
+                console.log(response.data.data)
+                let pairsArray = response.data.data;
+                storeReducer({
+                    type: GlobalStoreActionType.LOAD_ALL_PLAYLISTS,
+                    payload: pairsArray
+                })
+                console.log(pairsArray)
+            }
+
+        }
+        asyncGetAllPlaylists(userName);
     }
 
     // THE FOLLOWING 5 FUNCTIONS ARE FOR COORDINATING THE DELETION
@@ -685,6 +705,7 @@ function GlobalStoreContextProvider(props) {
         async function asyncUpdateCurrentList() {
             const response = await api.updatePlaylistById(store.currentList._id, store.currentList);
             if (response.data.success) {
+                console.log(response.data)
                 console.log(response.data)
                 storeReducer({
                     type: GlobalStoreActionType.SET_CURRENT_LIST,
