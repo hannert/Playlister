@@ -49,11 +49,32 @@ export const getPlaylistsFromUser = (ownerUsername) => {
     console.log(ownerUsername)
     return api.get(`/playlistsFromUser/`, {
         params:{
+            user: true,
             userName: ownerUsername
         }
 
     })
 }
+export const getPlaylistsWithName = (playlistName) => {
+    return api.get(`/playlistsFromUser/`, {
+        
+        params:{
+            all: true,
+            AllPlaylist: playlistName
+        }
+    }) 
+}
+export const getPlaylistsFromHome = (playlistName) => {
+    return api.get(`/playlistsFromUser/`, {
+        
+        params:{
+            home: true,
+            homePlaylist: playlistName
+        }
+    }) 
+}
+
+
 
 
 const apis = {
@@ -63,7 +84,9 @@ const apis = {
     getPlaylistPairs,
     updatePlaylistById,
     getPlaylists,
-    getPlaylistsFromUser
+    getPlaylistsFromUser,
+    getPlaylistsWithName,
+    getPlaylistsFromHome
 }
 
 export default apis

@@ -469,6 +469,42 @@ function GlobalStoreContextProvider(props) {
         asyncGetAllPlaylists(userName);
     }
 
+    store.getPlaylistsByName = function (playlistName) {
+        console.log("Getting playlists with name " + playlistName)
+        async function asyncGetAllPlaylists(playlistName) {
+            const response = await api.getPlaylistsWithName(playlistName);
+            if (response.data.success) {
+                console.log(response.data.data)
+                let pairsArray = response.data.data;
+                storeReducer({
+                    type: GlobalStoreActionType.LOAD_ALL_PLAYLISTS,
+                    payload: pairsArray
+                })
+                console.log(pairsArray)
+            }
+
+        }
+        asyncGetAllPlaylists(playlistName);
+    }
+
+    store.getPlaylistsInHome = function (playlistName) {
+        console.log("Getting playlists with name " + playlistName)
+        async function asyncGetAllPlaylists(playlistName) {
+            const response = await api.getPlaylistsFromHome(playlistName);
+            if (response.data.success) {
+                console.log(response.data.data)
+                let pairsArray = response.data.data;
+                storeReducer({
+                    type: GlobalStoreActionType.LOAD_ALL_PLAYLISTS,
+                    payload: pairsArray
+                })
+                console.log(pairsArray)
+            }
+
+        }
+        asyncGetAllPlaylists(playlistName);
+    }
+
     // THE FOLLOWING 5 FUNCTIONS ARE FOR COORDINATING THE DELETION
     // OF A LIST, WHICH INCLUDES USING A VERIFICATION MODAL. THE
     // FUNCTIONS ARE markListForDeletion, deleteList, deleteMarkedList,

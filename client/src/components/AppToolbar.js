@@ -1,11 +1,11 @@
+import ClearIcon from '@mui/icons-material/Clear';
 import GroupsIcon from '@mui/icons-material/Groups';
-import React, { useContext, useState } from 'react';
-import { GlobalStoreContext } from '../store';
-
 import HomeIcon from '@mui/icons-material/Home';
 import PersonIcon from '@mui/icons-material/Person';
 import SortIcon from '@mui/icons-material/Sort';
-import { Box, Button, Grid, IconButton, TextField, ToggleButton, ToggleButtonGroup } from "@mui/material";
+import { Box, Button, Grid, IconButton, InputAdornment, TextField, ToggleButton, ToggleButtonGroup } from "@mui/material";
+import React, { useContext, useState } from 'react';
+import { GlobalStoreContext } from '../store';
 
 export default function AppToolbar () {
     const { store } = useContext(GlobalStoreContext);
@@ -38,10 +38,26 @@ export default function AppToolbar () {
             if(alignment === 'ALL'){
                 store.getPlaylistsByName(text)
             }
+            if(alignment === 'HOME'){
+                store.getPlaylistsInHome(text)
+            }
         }
     }
     function handleUpdateText(event) {
         setText(event.target.value);
+    }
+    function handleClear() {
+        console.log("clear")
+        setText('');
+        if(alignment === 'USER'){
+            store.getUserPlaylists('')
+        }
+        if(alignment === 'ALL'){
+            store.getPlaylistsByName('')
+        }
+        if(alignment === 'HOME'){
+            store.getPlaylistsInHome('')
+        }
     }
 
 
@@ -65,8 +81,16 @@ export default function AppToolbar () {
                     fullWidth
                     onKeyPress={handleKeyPress}
                     onChange={handleUpdateText}
+                    value={text}
+                    InputProps = {{
+                        endAdornment: 
+                        <InputAdornment position='end'>
+                            <IconButton onClick={handleClear}>
+                                <ClearIcon/>
+                            </IconButton>
+                        </InputAdornment>
+                    }}
                     >
-
                     </TextField>
                 </Grid>
                 <Grid item xs={3} sx={{display:'flex', justifyContent:'flex-end'}}>

@@ -177,9 +177,85 @@ getPlaylists = async (req, res) => {
 }
 getPlaylistsFromUser = async (req, res) => {
     let queryUsername = req.query
+    // console.log("query name:")
+    // console.log(req.query.userName)
+    // console.log(req.params)
+    // console.log(req.body)
+
+    if(req.query.user){
+        console.log("Username search")
+        // Search within the Users button
+        await Playlist.find({ ownerUsername: req.query.userName, public:true}, (err, playlists) => {
+            if (err) {
+                return res.status(400).json({ success: false, error: err })
+            }
+            if(!playlists.length) {
+                return res.status(200).json({success: true, data: playlists})
+            }
+
+            return res.status(200).json({ success: true, data: playlists })
+        }).catch(err => console.log(err))
+    }
+    else if(req.query.all){
+        // Search within the ALL tab
+        console.log("All search")
+
+        let nameQuery = new RegExp('^' + req.query.AllPlaylist)
+
+        await Playlist.find({ name: nameQuery, public:true}, (err, playlists) => {
+            if (err) {
+                return res.status(400).json({ success: false, error: err })
+            }
+            return res.status(200).json({ success: true, data: playlists })
+        }).catch(err => console.log(err))
+
+    }
+    else if(req.query.home){
+        // Search within the HOME tab
+        // First find user owned playlists
+        // Then check if it belongs to user
+        console.log("Home search")
+        console.log(req.userId)
+        let match = req.query.homePlaylist
+        let nameQuery = new RegExp('^' + req.query.homePlaylist)
+    
+        await User.findOne({ _id: req.userId }, (err, user) => {
+            console.log("find user with id " + req.userId);
+            async function asyncFindList(email) {
+                console.log("find all Playlists owned by " + email);
+                await Playlist.find({ ownerEmail: email }, (err, playlists) => {
+                    // console.log("found Playlists: " + JSON.stringify(playlists));
+                    if (err) {
+                        return res.status(400).json({ success: false, error: err })
+                    }
+                    if (!playlists) {
+                        console.log("!playlists.length");
+                        return res
+                            .status(404)
+                            .json({ success: false, error: 'Playlists not found' })
+                    }
+                    else {
+                        console.log("Send the filtered pairs");
+                        // PUT ALL THE LISTS INTO ID, NAME PAIRS
+                        console.log('match:' + match)
+                        let playlist = playlists.filter((list) => {return list.name.startsWith(match)});
+                        return res.status(200).json({ success: true, data: playlist })
+                    }
+                }).catch(err => console.log(err))
+            }
+            asyncFindList(user.email);
+        }).catch(err => console.log(err))
+
+    }
+
+
+}
+getPlaylistsWithName = async (req, res) => {
+    let queryPlaylistName = req.query.playlistName
     console.log("query name:")
-    console.log(req.query.userName)
-    await Playlist.find({ ownerUsername: req.query.userName, public:true}, (err, playlists) => {
+    console.log(queryPlaylistName)
+    coonso
+    await Playlist.find({ name: "Untitled0", public:true}, (err, playlists) => {
         if (err) {
             return res.status(400).json({ success: false, error: err })
         }
@@ -188,7 +264,6 @@ getPlaylistsFromUser = async (req, res) => {
     }).catch(err => console.log(err))
 
 }
-
 
 updatePlaylist = async (req, res) => {
     console.log("UPDATE PLAYLIST -------------------")
@@ -259,5 +334,6 @@ module.exports = {
     getPlaylistPairs,
     getPlaylists,
     getPlaylistsFromUser,
-    updatePlaylist
+    updatePlaylist,
+    getPlaylistsWithName,
 }
