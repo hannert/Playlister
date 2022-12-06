@@ -3,13 +3,14 @@ import GroupsIcon from '@mui/icons-material/Groups';
 import HomeIcon from '@mui/icons-material/Home';
 import PersonIcon from '@mui/icons-material/Person';
 import SortIcon from '@mui/icons-material/Sort';
-import { Box, Button, Grid, IconButton, InputAdornment, TextField, ToggleButton, ToggleButtonGroup } from "@mui/material";
+import { Box, Button, Grid, IconButton, InputAdornment, Popper, TextField, ToggleButton, ToggleButtonGroup } from "@mui/material";
 import React, { useContext, useState } from 'react';
 import { GlobalStoreContext } from '../store';
 
 export default function AppToolbar () {
     const { store } = useContext(GlobalStoreContext);
     const [alignment, setAlignment] = React.useState('HOME');
+    const [anchorEl, setAnchorEl] = React.useState(null);
     const [text, setText] = useState("");
 
     const handleChange = (e, newAlignment) => {
@@ -60,6 +61,13 @@ export default function AppToolbar () {
         }
     }
 
+    const handleSortClick = (event) => {
+        console.log("open sort")
+        setAnchorEl(anchorEl ? null : event.currentTarget );
+    }
+
+    const open = Boolean(anchorEl)
+
 
     return (
         <Box>
@@ -94,12 +102,31 @@ export default function AppToolbar () {
                     </TextField>
                 </Grid>
                 <Grid item xs={3} sx={{display:'flex', justifyContent:'flex-end'}}>
-                    <Button>
+                    <Button onClick={handleSortClick}>
                         Sort By
-                    </Button>
-                    <IconButton>
                         <SortIcon />
-                    </IconButton>
+                    </Button>
+                    <Popper open={open} anchorEl={anchorEl} placement='bottom-end' >
+                        <Box sx={{display:'flex', flexDirection:'column', backgroundColor:'white', p:1}}>
+
+                            <Button variant='contained'>
+                                Name (A - Z)
+                            </Button>
+                            <Button variant='contained'>
+                                Publish Date (Newest)
+                            </Button>
+                            <Button variant='contained'>
+                                Listens (High - Low)
+                            </Button>
+                            <Button variant='contained'>
+                                Likes (High - Low)
+                            </Button>
+                            <Button variant='contained'>
+                                Dislikes (High- Low)
+                            </Button>
+                        </Box>
+                    </Popper>
+                    
                 </Grid>
             </Grid>
             
