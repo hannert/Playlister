@@ -391,6 +391,30 @@ updatePlaylist = async (req, res) => {
         })
     }
 }
+addCommentToPlaylist = async (req, res) => {
+    console.log("Adding comment....--------------------------------------------")
+    console.log(req.body)
+    // Find playlist
+    if (!req.body) {
+        return res.status(400).json({
+            success: false,
+            error: 'You must provide a body to update',
+        })
+    }
+
+    let response = await Playlist.findByIdAndUpdate(
+        {_id: req.body.playlistId },
+        {$push: {comments: {'userName': req.body.userName, 'message': req.body.text}}}
+        );
+        console.log(response)
+        return res.status(200).json({
+            success: true,
+            id: response._id
+        })
+    
+
+
+}
 
 
 
@@ -403,4 +427,5 @@ module.exports = {
     getPlaylistsFromUser,
     updatePlaylist,
     getPlaylistsWithName,
+    addCommentToPlaylist,
 }

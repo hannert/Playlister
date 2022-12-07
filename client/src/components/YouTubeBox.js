@@ -56,7 +56,7 @@ export default function YouTubeBox () {
 
     return(
 
-        <Box sx={{height:'100%'}} id='youtube-box'>
+        <Box sx={{width:'100%'}} id='youtube-box'>
             <ReactPlayer 
             url={"https://www.youtube.com/watch?v=" + currentSong} 
             width='100%'
@@ -65,7 +65,7 @@ export default function YouTubeBox () {
             onEnded={handleSkip}
             controls={true}
             />
-            <Box id='bottom-half' sx={{display:'flex', height:'100%', marginTop:'auto'}}>
+            <Box id='bottom-half' sx={{display:'flex', height:'45%', marginTop:'auto'}}>
                 <Box sx={{alignSelf:'flex-end', width:'100%', p:1}}>
                     {
                     currentSong
@@ -93,7 +93,7 @@ export default function YouTubeBox () {
                     : <Box> </Box>
                     }
                     
-                    <Box sx={{backgroundColor:'burlywood', display:'flex', justifyContent:'center', width:'100%'}}>
+                    <Box sx={{backgroundColor:'burlywood', display:'flex', justifyContent:'center', width:'100%', borderRadius:3}}>
                         <ButtonGroup variant="text">
                             <IconButton sx={{borderRadius:0}} onClick={handlePrevious}>
                                 <SkipPreviousIcon />

@@ -77,6 +77,13 @@ export const getPlaylistsFromHome = (playlistName) => {
         }
     }) 
 }
+export const addCommentToPlaylist = (id, userName, text) => {
+    return api.put(`/addCommentToPlaylist/`, {
+        playlistId: id,
+        userName: userName,
+        text: text
+    })
+}
 
 
 
@@ -90,7 +97,8 @@ const apis = {
     getPlaylists,
     getPlaylistsFromUser,
     getPlaylistsWithName,
-    getPlaylistsFromHome
+    getPlaylistsFromHome,
+    addCommentToPlaylist
 }
 
 export default apis

@@ -2,8 +2,8 @@
 import React from 'react';
 
 import { Box, ToggleButton, ToggleButtonGroup } from '@mui/material';
+import CommentBox from './CommentBox';
 import YouTubeBox from './YouTubeBox';
-
 //  To be renamed
 export default function PlayerBox () {
     const [alignment, setAlignment] = React.useState('player');
@@ -21,15 +21,13 @@ export default function PlayerBox () {
     } 
     if(alignment === 'comments'){
         content = 
-            <Box>
-                This should be the COMMENT section 
-            </Box>
+            <CommentBox />
     }
     
 
     return (
         <Box sx={{height:'100%'}}>
-            <Box>
+            <Box sx={{height:'100%', display:'flex', flexDirection:"column"}}>
                 <ToggleButtonGroup
                     value={alignment}
                     exclusive

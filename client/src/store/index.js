@@ -41,7 +41,8 @@ export const GlobalStoreActionType = {
     GET_PLAYLISTS_BY_USER: "GET_PLAYLISTS_BY_USER",
     GET_PLAYLIST_BY_NAME: "GET_PLAYLIST_BY_NAME",
     GET_PLAYLIST_IN_HOME: "GET_PLAYLIST_IN_HOME",
-    GET_PLAYLISTS_OF_LOGGED_IN: "GET_PLAYLISTS_OF_LOGGED_IN"
+    GET_PLAYLISTS_OF_LOGGED_IN: "GET_PLAYLISTS_OF_LOGGED_IN",
+    FETCH_COMMENTS: "FETCH_COMMENTS"
 }
 
 // WE'LL NEED THIS TO PROCESS TRANSACTIONS
@@ -237,6 +238,14 @@ function GlobalStoreContextProvider(props) {
                     currentPlayingList: payload.playlist,
                     currentPlayingSongIndex: payload.newIndex,
                     currentPlayingSong: payload.song
+                })
+            }
+
+            case GlobalStoreActionType.FETCH_COMMENTS: {
+                console.log("comments are a go!")
+                return setStore({
+                    ...store,
+                    currentPlayingList: payload.playlist
                 })
             }
             
@@ -735,6 +744,45 @@ function GlobalStoreContextProvider(props) {
 
     store.dislikePlaylist = function (id) {
 
+    }
+
+    store.commentOnPlayingPlaylist = function (comment) {
+        console.log("Commenting on " + store?.currentPlayingList?._id + " about " + comment + " by user:" + auth.user.userName)
+        
+        let packagedComment = {user:auth.userName, body:comment}
+
+        async function asyncAddComment(comment){
+            // GET Playlist first
+            console.log(store.currentPlayingList)
+            console.log(auth.user.userName)
+            console.log(comment)
+            let response = await api.addCommentToPlaylist(store?.currentPlayingList._id, auth.user.userName, comment)
+            if(response.data.success){
+                // Get updated list
+                async function getPlaylistById(id){
+                    let response = await api.getPlaylistById(id);
+                    if(response.data.success) {
+                        console.log(response.data.playlist)
+                        storeReducer({
+                            type: GlobalStoreActionType.FETCH_COMMENTS,
+                            payload: {playlist: response.data.playlist}
+                        })
+                    }
+
+                }
+
+                getPlaylistById(response.data.id)
+                
+                
+            }
+
+        }
+    
+        asyncAddComment(comment)
+    
+    
+    
+    
     }
 
     store.duplicatePlaylist = function (id) {
