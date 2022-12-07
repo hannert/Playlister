@@ -2,6 +2,7 @@ import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/HighlightOff';
 import RedoIcon from '@mui/icons-material/Redo';
 import UndoIcon from '@mui/icons-material/Undo';
+import { Box } from '@mui/material';
 import Button from '@mui/material/Button';
 import { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
@@ -31,7 +32,7 @@ function EditToolbar() {
         history.push('/')
     }
     return (
-        <div id="edit-toolbar">
+        <Box id="edit-toolbar">
             <Button
                 disabled={!store.canAddNewSong() || store.currentModal !== "NONE"}
                 id='add-song-button'
@@ -60,7 +61,7 @@ function EditToolbar() {
                 variant="contained">
                     <CloseIcon />
             </Button>
-        </div>
+        </Box>
     )
 }
 

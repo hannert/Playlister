@@ -3,7 +3,7 @@ import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrow
 import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
 import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
-import { Button, Grid, IconButton, List } from '@mui/material';
+import { Button, Grid, IconButton, List, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { useContext, useEffect, useState } from 'react';
@@ -36,12 +36,30 @@ function ListCard(props) {
         }
     }, [store.recentlyExpandedList])
 
+
+    let containingExpandedStyle = {
+        width:'100%',
+        height:'100%', 
+        overflow:'auto', 
+        backgroundColor:'pink', 
+        marginTop:1, 
+        marginBottom:1, 
+        borderRadius:2,
+        display:'flex',
+        flexDirection:'column',
+        gap:'10px'
+    }
+
+
+
+
+
     function handleToggleEdit(event) {
         event.stopPropagation();
         toggleEdit();
     }
 
-    async function handleExpand(event, id) {
+    function handleExpand(event, id) {
         // Handle expanding or collapsing the playlist
         //Playlist retrieved with call to store, sets recentlyExpandedList, 
         //list cards check if list is matching, then update their own state with playlist.
@@ -94,6 +112,7 @@ function ListCard(props) {
         store.addNewSong();
     }
     function handlePlay(event, id) {
+        event.stopPropagation();
         if (!event.target.disabled) {
             let _id = event.target.id;
             if (_id.indexOf('list-card-text-') >= 0)
@@ -145,7 +164,8 @@ function ListCard(props) {
 
     let playlistName = 
         <Box> 
-            {idNamePair.name}
+            <Typography variant='h6'>{idNamePair.name}</Typography>
+            
         </Box>
 
     if(editActive) 
@@ -177,7 +197,7 @@ function ListCard(props) {
             // The expanded list is public, so it can't be edited in any way
             expandedList = 
             <List
-                sx={{height:'100%', overflow:'auto'}}
+                sx={containingExpandedStyle}
             >
                 {
                 songs?.map((song, index) => (
@@ -197,7 +217,7 @@ function ListCard(props) {
             console.log("This list is NOT pulic...")
             expandedList = 
             <List
-                sx={{height:'100%', overflow:'auto'}}
+                sx={containingExpandedStyle}
                 >
                 {
                 songs?.map((song, index) => (
@@ -290,14 +310,32 @@ function ListCard(props) {
 
     }
 
+    let boxStyle = {backgroundColor:'#FFFFF1'}
+    if(expanded){
+        if(idNamePair.public === true){
+            boxStyle={backgroundColor:'#D4AF37'}
+        }
+        else{
+            boxStyle={backgroundColor:'#D4AF37'}
+        }
+        
+    }
+
 
 
     let cardElement = 
         <Box
         id={idNamePair._id}
         key={idNamePair._id}
-        sx={{ marginTop: '15px', display: 'flex', p: 1 , flexDirection: 'column', transition:'all 0.5s ease'}}
-        style={{ maxHeight: '100%', width: '100%', backgroundColor:'#D4A0DC'}}
+        sx={{ 
+            marginTop: '15px', 
+            display: 'flex', 
+            p: 1, 
+            flexDirection: 'column', 
+            transition:'all 0.2s ease',
+            borderRadius:2
+        }}
+        style={boxStyle}
         onClick={(event) => {handlePlay(event, idNamePair._id)}}
         > 
             <Box sx={{justifyContent:'space-between', width: '100%'}}>

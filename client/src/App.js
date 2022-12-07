@@ -1,16 +1,15 @@
+import { createTheme, ThemeProvider } from '@mui/material';
+import { React } from 'react';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import './App.css';
-import { React } from 'react'
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { AuthContextProvider } from './auth';
-import { GlobalStoreContextProvider } from './store'
 import {
-    AppBanner,
     HomeWrapper,
     LoginScreen,
     RegisterScreen,
-    Statusbar,
-    WorkspaceScreen
-} from './components'
+    Statusbar
+} from './components';
+import { GlobalStoreContextProvider } from './store';
 /*
     This is our application's top-level component.
     
@@ -22,22 +21,30 @@ import {
   
   @author McKilla Gorilla
 */
+const THEME = createTheme({
+    typography: {
+        "fontFamily": `"Roboto", "Helvetica", "Arial", sans-serif`,
+    }
+})
+
+
 const App = () => {   
     return (
+        <ThemeProvider theme={THEME}>
         <BrowserRouter>
             <AuthContextProvider>
-                <GlobalStoreContextProvider>              
-                    <AppBanner />
+                <GlobalStoreContextProvider>        
+                    {/* <AppBanner /> */}
                     <Switch>
                         <Route path="/" exact component={HomeWrapper} />
                         <Route path="/login/" exact component={LoginScreen} />
                         <Route path="/register/" exact component={RegisterScreen} />
-                        <Route path="/playlist/:id" exact component={WorkspaceScreen} />
                     </Switch>
                     <Statusbar />
                 </GlobalStoreContextProvider>
             </AuthContextProvider>
         </BrowserRouter>
+        </ThemeProvider>
     )
 }
 

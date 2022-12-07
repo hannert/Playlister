@@ -1,8 +1,7 @@
 // Similar component to SongCard, but dont allow editing ,only clicking
 
-import CloseIcon from '@mui/icons-material/Close';
-import { Button, Typography } from '@mui/material';
-import React, { useContext, useState } from 'react';
+import { Box, Button, Typography } from '@mui/material';
+import React, { useContext } from 'react';
 import { GlobalStoreContext } from '../store';
 
 function SongCardLight(props) {
@@ -19,20 +18,25 @@ function SongCardLight(props) {
 
     let cardClass = "list-card unselected-list-card";
     return (
-        <Typography
+        <Box sx={{display:'flex', width: '100%', marginTop:1, marginBottom:1}}>
+            <Button
             key={index}
             id={'song-' + index + '-card'}
-            className={cardClass}
             onClick={handleClick}
-        >
             
-            <Typography
-            id={'song-' + index + '-link'}
+            sx={{width: '100%', justifyContent: 'flex-start'}}
             >
-                
-                {index + 1}.{song.title} by {song.artist}
-            </Typography>
-        </Typography>
+                <Box>
+
+                </Box>
+                <Typography>
+                    {index + 1}.{song.title} by {song.artist}
+                </Typography>
+                 
+
+            </Button>
+        </Box>
+        
     );
 }
 

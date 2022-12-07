@@ -12,14 +12,13 @@ export default function Terminal (){
     return (
         <Box 
         id='Terminal'
-        height='100%'
+        height='90%'
         >
-            Terminal
            <Grid
             container
             height='100%'
             >
-                <Grid item xs={7} sx={{height:'100%', overflow:'auto', backgroundColor:'#B3C8DC'}}>
+                <Grid item xs={7} sx={{height:'100%', overflow:'auto'}}>
                         <ListBox />
                     
                 </Grid>

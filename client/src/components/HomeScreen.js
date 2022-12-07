@@ -1,11 +1,11 @@
 import { Box } from '@mui/system';
 import React, { useContext, useEffect } from 'react';
 import { GlobalStoreContext } from '../store';
+import AppToolbar from './AppToolbar.js';
 import MUIDeleteModal from './MUIDeleteModal';
 import MUIEditSongModal from './MUIEditSongModal';
 import MUIRemoveSongModal from './MUIRemoveSongModal';
 import Terminal from './Terminal.js';
-import AppToolbar from './AppToolbar.js'
 
 import AddIcon from '@mui/icons-material/Add';
 import Fab from '@mui/material/Fab';
@@ -34,26 +34,27 @@ const HomeScreen = () => {
 
 
     return (
-        <Box id="playlist-selector">
-            Home screen
-            <AppToolbar />
-            <Box id="list-selector-heading">
-            <Fab 
-                color="primary" 
-                aria-label="add"
-                id="add-list-button"
-                onClick={handleCreateNewList}
-            >
-                <AddIcon />
-            </Fab>
-                <Typography variant="h2">Your Lists</Typography>
-            </Box>
-            <Box id="list-selector-list"
-            >   
+        <Box sx={{height:'92.5%'}}>
+
+            <Box id="list-selector-list" sx={{height:'90%'}}>   
+                <AppToolbar />
                 <Terminal/>
                 
                 <MUIDeleteModal />
                 {modalJSX}
+            </Box>
+            <Box id="awesome" sx={{height:'10%',display:'flex', justifyContent:'center'}}>
+                <Box>
+                    <Fab 
+                    color="primary" 
+                    aria-label="add"
+                    id="add-list-button"
+                    onClick={handleCreateNewList}
+                    >
+                        <AddIcon />
+                    </Fab>
+                </Box>
+                <Typography variant="h2">Your Lists</Typography>
             </Box>
         </Box>)
 }

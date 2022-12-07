@@ -31,8 +31,7 @@ export default function ListBox () {
 
 
     return (
-        <Box height='100%'>
-            List-Box
+        <Box sx={{height: '100%', overflow:'auto'}}>
             {content}
         </Box>
     )
