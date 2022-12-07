@@ -5,7 +5,7 @@ import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 import StopIcon from '@mui/icons-material/Stop';
 import { Box, ButtonGroup, Grid, IconButton, Typography } from "@mui/material";
 import { useContext, useEffect, useState } from 'react';
-import ReactPlayer from 'react-player';
+import ReactPlayer from 'react-player/youtube';
 import { GlobalStoreContext } from '../store';
 
 export default function YouTubeBox () {
@@ -56,14 +56,14 @@ export default function YouTubeBox () {
 
     return(
 
-        <Box sx={{height:'100%'}}>
+        <Box sx={{height:'100%'}} id='youtube-box'>
             <ReactPlayer 
             url={"https://www.youtube.com/watch?v=" + currentSong} 
             width='100%'
             playing={_playing}
             key={currentSongIndex}
             onEnded={handleSkip}
-            
+            controls={true}
             />
             <Box id='bottom-half' sx={{display:'flex', height:'100%', marginTop:'auto'}}>
                 <Box sx={{alignSelf:'flex-end', width:'100%', p:1}}>
@@ -72,19 +72,21 @@ export default function YouTubeBox () {
                     ?<Box sx={{width:'100%'}}>
                         <Grid container sx={{font:'Roboto'}}>
                             <Grid item xs={12} sx={{display:'flex', justifyContent:'center'}}>
-                                Now Playing
+                                <Typography variant ='subtitle2'>
+                                    Now Playing
+                                </Typography>
                             </Grid>
                             <Grid item xs={2}>
-                                <Typography> Playlist: </Typography>
-                                <Typography> Song #: </Typography>
-                                <Typography> Title: </Typography>
-                                <Typography> Artist: </Typography>
+                                <Typography variant='h6'> Playlist: </Typography>
+                                <Typography variant='h6'> Song #: </Typography>
+                                <Typography variant='h6'> Title: </Typography>
+                                <Typography variant='h6'> Artist: </Typography>
                             </Grid>
                             <Grid item xs={10}>
-                                <Typography>{store?.currentPlayingList?.name}</Typography>
-                                <Typography>{store.currentPlayingSongIndex + 1}</Typography>
-                                <Typography>{store.currentPlayingSong?.title}</Typography>
-                                <Typography>{store.currentPlayingSong?.artist}</Typography>
+                                <Typography variant='h6'>{store?.currentPlayingList?.name}</Typography>
+                                <Typography variant='h6'>{store.currentPlayingSongIndex + 1}</Typography>
+                                <Typography variant='h6'>{store.currentPlayingSong?.title}</Typography>
+                                <Typography variant='h6'>{store.currentPlayingSong?.artist}</Typography>
                             </Grid>
                         </Grid>
                     </Box>
