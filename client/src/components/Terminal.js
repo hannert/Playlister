@@ -22,7 +22,7 @@ export default function Terminal (){
                         <ListBox />
                     
                 </Grid>
-                <Grid item xs={5}>
+                <Grid item xs={5} sx={{height:'100%'}}>
                     <PlayerBox /> 
                 </Grid>
     

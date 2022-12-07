@@ -70,15 +70,12 @@ body {
   border-radius: 10px;
 }
 #splash-screen {
-  background-image: linear-gradient(to bottom, #d1d1d1, #7a4242);
+  background-image: linear-gradient(to top, #1b1b1b, #2d4069, #4773d3);
   color: white;
   font-size: 5vw;
   border-color: black;
   border-width: 2px;
   border-style: solid;
-  padding-top: 5%;
-  padding-bottom: 5%;
-  height:70%;
   text-align: center;
   vertical-align: center;
 }
