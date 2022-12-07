@@ -36,6 +36,11 @@ export default function AppBanner() {
         auth.logoutUser();
     }
 
+    function handleLogoPress (event) {
+        event.stopPropagation();
+        store.getPlaylistsInHome('')
+    }
+
     const menuId = 'primary-search-account-menu';
     const loggedOutMenu = (
         <Menu
@@ -104,9 +109,9 @@ export default function AppBanner() {
                         component="div"
                         sx={{ display: { xs: 'none', sm: 'block' } }}                        
                     >
-                        <Link style={{ textDecoration: 'none', color: 'white' }} to='/'>
+                        <Box style={{ textDecoration: 'none', color: 'white' }} onClick={(event) => {handleLogoPress(event)}}>
                             <Logo />
-                        </Link>
+                        </Box>
                     </Typography>
                     <Box sx={{ flexGrow: 1 }}>{editToolbar}</Box>
                     <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
@@ -127,6 +132,7 @@ export default function AppBanner() {
             {
                 menu
             }
+            
         </Box>
     );
 }

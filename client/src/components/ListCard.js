@@ -36,19 +36,36 @@ function ListCard(props) {
         }
     }, [store.recentlyExpandedList])
 
+    let containingExpandedStyle = {}
 
-    let containingExpandedStyle = {
-        width:'100%',
-        height:'100%', 
-        overflow:'auto', 
-        backgroundColor:'pink', 
-        marginTop:1, 
-        marginBottom:1, 
-        borderRadius:2,
-        display:'flex',
-        flexDirection:'column',
-        gap:'10px'
+
+    if(idNamePair.public === true){
+        containingExpandedStyle = {
+            width:'100%',
+            height:'100%', 
+            overflow:'auto', 
+            backgroundColor:'pink', 
+            marginTop:1, 
+            marginBottom:1, 
+            borderRadius:2,
+            display:'flex',
+            flexDirection:'column',
+            gap:'10px'
+        }
+    } else if(idNamePair.public === false){
+        containingExpandedStyle = {
+            width:'100%',
+            height:'100%', 
+            overflow:'auto', 
+            marginTop:1, 
+            marginBottom:1, 
+            borderRadius:2,
+            display:'flex',
+            flexDirection:'column',
+            gap:'10px'
+        }
     }
+    
 
 
 
@@ -65,15 +82,14 @@ function ListCard(props) {
         //list cards check if list is matching, then update their own state with playlist.
         console.log("Expand");
         event.stopPropagation();
-        if (!event.target.disabled) {
-            let list = store.getListById(id);
-        }
+        store.getListById(id);
         setExpanded(true);
     }
     function handleCollapse(event) {
         event.stopPropagation();
 
         setExpanded(false);
+        store.clearAllTransactions();
     }
 
     // Need function to retreive the list songs when expanded
@@ -127,11 +143,13 @@ function ListCard(props) {
 
     function handleUndo(event) {
         event.stopPropagation();
-        console.log("Undo")
+        console.log("Undo");
+        store.undo();
     }
     function handleRedo(event) {
         event.stopPropagation();
         console.log("Redo")
+        store.redo();
     }
     function handlePublish(event) {
         event.stopPropagation();
@@ -255,10 +273,18 @@ function ListCard(props) {
             console.log(idNamePair)
             console.log("currentlist is not public")
             transactions = <Box sx={{marginRight:'auto', display:'flex', gap:1}}>
-                <Button variant='contained' onClick={(event) => {handleUndo(event)}} >
+                <Button 
+                variant='contained' 
+                onClick={(event) => {handleUndo(event)}}
+                disabled={!store.canUndo() || store.currentModal !== "NONE"}
+                >
                     Undo
                 </Button>
-                <Button variant='contained' onClick={(event) => {handleRedo(event)}}>
+                <Button 
+                variant='contained' 
+                onClick={(event) => {handleRedo(event)}}
+                disabled={!store.canRedo() || store.currentModal !== "NONE"}
+                >
                     Redo
                 </Button>
             </Box>
@@ -316,7 +342,7 @@ function ListCard(props) {
             boxStyle={backgroundColor:'#D4AF37'}
         }
         else{
-            boxStyle={backgroundColor:'#D4AF37'}
+            boxStyle={backgroundColor:'#FFFFF1'}
         }
         
     }

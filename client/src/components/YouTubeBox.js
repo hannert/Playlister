@@ -19,7 +19,7 @@ export default function YouTubeBox () {
         console.log(store?.currentPlayingSong)
         if(store?.currentPlayingSong !== null) {
             console.log('currplasong not null')
-            setCurrentList(store?.currentList?.songs)
+            setCurrentList(store?.currentPlayingList?.songs)
             setCurrentSongIndex(store.getCurrentSongIndex()) // Index of current song playing of the playlist 0-based
             setCurrentSong(store.currentPlayingSong?.youTubeId)            
         }
@@ -40,6 +40,16 @@ export default function YouTubeBox () {
         setCurrentSongIndex(newSongIndex)
         setCurrentSong(currentList[newSongIndex].youTubeId)
         console.log(currentList, newSongIndex)
+        store.setCurrentPlayingSong(currentList[newSongIndex], newSongIndex)
+    }
+    function handlePrevious() {
+        console.log("Go previous from " + currentSongIndex)
+        let newSongIndex = (currentSongIndex - 1) % currentList.length
+        if (newSongIndex === -1) newSongIndex = currentList.length - 1
+        console.log(currentList, newSongIndex)
+        setCurrentSongIndex(newSongIndex)
+        setCurrentSong(currentList[newSongIndex].youTubeId)
+        
         store.setCurrentPlayingSong(currentList[newSongIndex], newSongIndex)
     }
 
@@ -71,7 +81,7 @@ export default function YouTubeBox () {
                                 <Typography> Artist: </Typography>
                             </Grid>
                             <Grid item xs={10}>
-                                <Typography>{store?.currentList?.name}</Typography>
+                                <Typography>{store?.currentPlayingList?.name}</Typography>
                                 <Typography>{store.currentPlayingSongIndex + 1}</Typography>
                                 <Typography>{store.currentPlayingSong?.title}</Typography>
                                 <Typography>{store.currentPlayingSong?.artist}</Typography>
@@ -83,7 +93,7 @@ export default function YouTubeBox () {
                     
                     <Box sx={{backgroundColor:'burlywood', display:'flex', justifyContent:'center', width:'100%'}}>
                         <ButtonGroup variant="text">
-                            <IconButton sx={{borderRadius:0}}>
+                            <IconButton sx={{borderRadius:0}} onClick={handlePrevious}>
                                 <SkipPreviousIcon />
                             </IconButton>
                             <IconButton sx={{borderRadius:0}} onClick={handlePause}>

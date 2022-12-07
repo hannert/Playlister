@@ -38,7 +38,10 @@ export const GlobalStoreActionType = {
     PLAY_PLAYLIST: "PLAY_PLAYLIST",
     SKIP_SONG: "SKIP_SONG",
     LOAD_ALL_PLAYLISTS: "LOAD_ALL_PLAYLISTS",
-    GET_PLAYLISTS_BY_USER: "GET_PLAYLISTS_BY_USER"
+    GET_PLAYLISTS_BY_USER: "GET_PLAYLISTS_BY_USER",
+    GET_PLAYLIST_BY_NAME: "GET_PLAYLIST_BY_NAME",
+    GET_PLAYLIST_IN_HOME: "GET_PLAYLIST_IN_HOME",
+    GET_PLAYLISTS_OF_LOGGED_IN: "GET_PLAYLISTS_OF_LOGGED_IN"
 }
 
 // WE'LL NEED THIS TO PROCESS TRANSACTIONS
@@ -74,8 +77,10 @@ function GlobalStoreContextProvider(props) {
         listIdMarkedForDeletion: null,
         listMarkedForDeletion: null,
         recentExpandedList: null,
+        currentPlayingList: null,
         currentPlayingSong: null,
-        currentPlayingSongIndex: 0, 
+        currentPlayingSongIndex: 0,
+        currentQuery: null
 
     });
     const history = useHistory();
@@ -151,7 +156,6 @@ function GlobalStoreContextProvider(props) {
             case GlobalStoreActionType.LOAD_ID_NAME_PAIRS: {
                 return setStore({
                     ...store,
-
                     currentModal : CurrentModal.NONE,
                     idNamePairs: payload,
                     currentSongIndex: -1,
@@ -167,9 +171,48 @@ function GlobalStoreContextProvider(props) {
             case GlobalStoreActionType.LOAD_ALL_PLAYLISTS: {
                 return setStore({
                     ...store,
+                    currentTab: CurrentTab.ALL,
                     idNamePairs: payload,
                 })
             }
+
+            case GlobalStoreActionType.GET_PLAYLISTS_BY_USER: {
+                return setStore({
+                    ...store,
+                    currentTab: CurrentTab.USER,
+                    idNamePairs: payload.playlist,
+                    currentQuery: payload.query
+                })
+            }
+
+            case GlobalStoreActionType.GET_PLAYLIST_BY_NAME: {
+                return setStore({
+                    ...store,
+                    currentTab: CurrentTab.ALL,
+                    idNamePairs: payload.playlist,
+                    currentQuery: payload.query
+                })
+            }
+            
+            // In home, search lists get
+            case GlobalStoreActionType.GET_PLAYLIST_IN_HOME: {
+                return setStore({
+                    ...store,
+                    currentTab: CurrentTab.HOME,
+                    idNamePairs: payload.playlist,
+                    currentQuery: payload.query
+                })
+            }
+
+            case GlobalStoreActionType.GET_PLAYLISTS_OF_LOGGED_IN: {
+                return setStore({
+                    ...store,
+                    currentTab: CurrentTab.HOME,
+                    idNamePairs: payload
+                })
+            }
+
+
 
             case GlobalStoreActionType.GET_PLAYLIST_BY_ID: {
                 return setStore({
@@ -191,7 +234,7 @@ function GlobalStoreContextProvider(props) {
                 console.log("Playing playlist")
                 return setStore({
                     ...store,
-                    currentList: payload.playlist,
+                    currentPlayingList: payload.playlist,
                     currentPlayingSongIndex: 0,
                     currentPlayingSong: payload.song
                 })
@@ -412,7 +455,7 @@ function GlobalStoreContextProvider(props) {
         }
     }
 
-    // THIS FUNCTION LOADS ALL THE ID, NAME PAIRS SO WE CAN LIST ALL THE LISTS
+    // Function to get all ID pairs of logged in user ( Home Screen )
     store.loadIdNamePairs = function () {
         console.log("Load ID name pairs ----------")
         async function asyncLoadIdNamePairs() {
@@ -433,6 +476,25 @@ function GlobalStoreContextProvider(props) {
         asyncLoadIdNamePairs();
     }
 
+    store.getLoggedInUserPlaylists = function() {
+        console.log("Load ID name pairs ----------")
+        async function asyncLoadIdNamePairs() {
+            const response = await api.getPlaylistPairs();
+            if (response.data.success) {
+                let pairsArray = response.data.idNamePairs;
+                console.log("Pairs Array")
+                console.log(pairsArray)
+                storeReducer({
+                    type: GlobalStoreActionType.GET_PLAYLISTS_OF_LOGGED_IN,
+                    payload: pairsArray
+                });
+            }
+            else {
+                console.log("API FAILED TO GET THE LIST PAIRS");
+            }
+        }
+        asyncLoadIdNamePairs();
+    }
     // This function will get all public playlists in the database
     store.getAllPublicPlaylists = function () {
         console.log("Getting all playlists");
@@ -461,8 +523,8 @@ function GlobalStoreContextProvider(props) {
                 console.log(response.data.data)
                 let pairsArray = response.data.data;
                 storeReducer({
-                    type: GlobalStoreActionType.LOAD_ALL_PLAYLISTS,
-                    payload: pairsArray
+                    type: GlobalStoreActionType.GET_PLAYLISTS_BY_USER,
+                    payload: {playlist: pairsArray, query: userName}
                 })
                 console.log(pairsArray)
             }
@@ -479,8 +541,9 @@ function GlobalStoreContextProvider(props) {
                 console.log(response.data.data)
                 let pairsArray = response.data.data;
                 storeReducer({
-                    type: GlobalStoreActionType.LOAD_ALL_PLAYLISTS,
-                    payload: pairsArray
+                    type: GlobalStoreActionType.GET_PLAYLIST_BY_NAME,
+                    payload: {playlist: pairsArray, query: playlistName}
+                    
                 })
                 console.log(pairsArray)
             }
@@ -497,8 +560,8 @@ function GlobalStoreContextProvider(props) {
                 console.log(response.data.data)
                 let pairsArray = response.data.data;
                 storeReducer({
-                    type: GlobalStoreActionType.LOAD_ALL_PLAYLISTS,
-                    payload: pairsArray
+                    type: GlobalStoreActionType.GET_PLAYLIST_IN_HOME,
+                    payload: {playlist: pairsArray, query: playlistName}
                 })
                 console.log(pairsArray)
             }

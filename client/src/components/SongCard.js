@@ -1,5 +1,5 @@
 import CloseIcon from '@mui/icons-material/Close';
-import { Button, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import React, { useContext, useEffect, useState } from 'react';
 import { GlobalStoreContext } from '../store';
 
@@ -73,19 +73,23 @@ function SongCard(props) {
 
 
     return (
-        <Button
+        <Box
             key={index}
             id={'song-' + index + '-card'}
+            draggable={true}
             onDragStart={handleDragStart}
             onDragOver={handleDragOver}
             onDragEnter={handleDragEnter}
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
-            draggable="true"
+            
             sx={{
                 padding: '20px',
                 display:'flex',
-                justifyContent:'flex-end'
+                justifyContent:'flex-end',
+                transition:'all 0.5s ease',
+                color:'white',
+                borderRadius: 2,
             }}
             style={{
                 backgroundColor:activeStyle
@@ -96,6 +100,7 @@ function SongCard(props) {
         >
             
             <Typography
+            variant='h6'
             id={'song-' + index + '-link'}
             className="song-link"
             sx={{marginRight:'auto'}}
@@ -114,7 +119,7 @@ function SongCard(props) {
                     <CloseIcon />
             </Button>
 
-        </Button>
+        </Box>
     );
 }
 

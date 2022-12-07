@@ -4,7 +4,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import PersonIcon from '@mui/icons-material/Person';
 import SortIcon from '@mui/icons-material/Sort';
 import { Box, Button, Grid, IconButton, InputAdornment, Popper, TextField, ToggleButton, ToggleButtonGroup } from "@mui/material";
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { GlobalStoreContext } from '../store';
 
 export default function AppToolbar () {
@@ -13,6 +13,11 @@ export default function AppToolbar () {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [text, setText] = useState("");
 
+    useEffect(()=>{
+        console.log("Tab changed")
+        setAlignment(store.currentTab)
+    }, [store.currentTab])
+
     const handleChange = (e, newAlignment) => {
         if(newAlignment !== null)
             setAlignment(newAlignment);
@@ -20,7 +25,7 @@ export default function AppToolbar () {
 
     function handleHome () {
         console.log("Home clicked");
-        store.loadIdNamePairs();
+        store.getLoggedInUserPlaylists();
     }
     function handleAll () {
         console.log("ALL clicked")
