@@ -154,7 +154,8 @@ getPlaylistPairs = async (req, res) => {
                             public: list.public,
                             likes: list.likes,
                             dislikes: list.dislikes,
-                            listens: list.listens
+                            listens: list.listens,
+                            publishedTime: list.publishedTime,
                         };
                         pairs.push(pair);
                     }
@@ -340,7 +341,8 @@ updatePlaylist = async (req, res) => {
                         console.log("req.body.name: " + body.public);
 
                         if(body.public === true) list.public = true;
-                        if(body.published !== 'Not published yet') list.published = body.published;
+                        if(body.published !== 'n/a') list.published = body.published;
+                        if(body.publishedTime !== 'n/a') list.publishedTime = body.publishedTime;
                         list.name = body.name;
                         list.songs = body.songs;
                         list

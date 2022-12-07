@@ -344,15 +344,17 @@ function GlobalStoreContextProvider(props) {
                 let playlist = response.data.playlist;
                 let publishDate = ''
                 let today = new Date();
+                let todayISO = today.toISOString();
+
                 let mm = today.toLocaleString('default', { month: 'short' });
                 let dd = today.getDate();
                 let yy = today.getFullYear();
-                publishDate = mm + ' ' + dd + ', ' + yy
+                publishDate = mm + ' ' + dd + ', ' + yy;
 
-                console.log(publishDate)
                 playlist.public = true;
                 playlist.published = publishDate;
-                console.log(playlist)
+                playlist.publishedTime = todayISO;
+
                 async function updateList(playlist) {
                     response = await api.updatePlaylistById(playlist._id, playlist, false);
                     if (response.data.success) {
@@ -646,20 +648,62 @@ function GlobalStoreContextProvider(props) {
 
     }
 
+    // Store sorting functions, sort locally?
     store.sortByName = function () {
-
+        let tempList = store.idNamePairs;
+        let sorted = tempList.sort((listOne, listTwo) => (listOne.name > listTwo.name ? 1 : -1))
+        storeReducer({
+            type: GlobalStoreActionType.LOAD_ID_NAME_PAIRS,
+            payload: sorted
+        })
+        console.log(sorted)
     }
-    store.soryByPublishDate = function () {
+    store.sortByPublishDate = function () {
+        let tempList = store.idNamePairs;
+        // let sorted = tempList.sort((listOne, listTwo) => (listOne.publishedTime > listTwo.publishedTime ? -1 : 1))
+        let sorted = tempList.sort((listOne, listTwo) => {
+            if(listOne.publishedTime > listTwo.publishedTime){
+                return -1
+            } else if (listOne.publishedTime < listTwo.publishedTime) {
+                return 1
+            }
+            else {
+                return 1
+            }
+        })
 
+        storeReducer({
+            type: GlobalStoreActionType.LOAD_ID_NAME_PAIRS,
+            payload: sorted
+        })
+        console.log(sorted);
     }
     store.sortByListens = function () {
-
+        let tempList = store.idNamePairs;
+        let sorted = tempList.sort((listOne, listTwo) => (listOne.listens > listTwo.listens ? -1 : 1))
+        storeReducer({
+            type: GlobalStoreActionType.LOAD_ID_NAME_PAIRS,
+            payload: sorted
+        })
+        console.log(sorted)
     }
     store.sortByLikes = function () {
-
+        let tempList = store.idNamePairs;
+        let sorted = tempList.sort((listOne, listTwo) => (listOne.likes > listTwo.likes ? -1 : 1))
+        storeReducer({
+            type: GlobalStoreActionType.LOAD_ID_NAME_PAIRS,
+            payload: sorted
+        })
+        console.log(sorted)
     }
     store.sortByDislikes = function () {
-
+        let tempList = store.idNamePairs;
+        let sorted = tempList.sort((listOne, listTwo) => (listOne.dislikes > listTwo.dislikes ? -1 : 1))
+        storeReducer({
+            type: GlobalStoreActionType.LOAD_ID_NAME_PAIRS,
+            payload: sorted
+        })
+        console.log(sorted)
     }
 
     store.commentOnPlaylist = function () {

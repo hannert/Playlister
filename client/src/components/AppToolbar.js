@@ -69,6 +69,27 @@ export default function AppToolbar () {
     const open = Boolean(anchorEl)
 
 
+    function handleSortByName(event){
+        event.stopPropagation();
+        store.sortByName();
+    }
+    function handleSortbyPublishDate(event){
+        event.stopPropagation();
+        store.sortByPublishDate();
+    }
+    function handleSortByListens(event){
+        event.stopPropagation();
+        store.sortByListens();
+    }
+    function handleSortByLikes(event){
+        event.stopPropagation();
+        store.sortByLikes();
+    }
+    function handleSortByDislikes(event){
+        event.stopPropagation();
+        store.sortByDislikes();
+    }
+
     return (
         <Box>
             <Grid container>
@@ -77,6 +98,7 @@ export default function AppToolbar () {
                         value={alignment}
                         exclusive
                         onChange={handleChange}
+                        sx={{height:'100%'}}
                     >
                         <ToggleButton value='HOME' onClick={handleHome}><HomeIcon/></ToggleButton>
                         <ToggleButton value='ALL' onClick={handleAll}><GroupsIcon/></ToggleButton>
@@ -109,19 +131,19 @@ export default function AppToolbar () {
                     <Popper open={open} anchorEl={anchorEl} placement='bottom-end' >
                         <Box sx={{display:'flex', flexDirection:'column', backgroundColor:'white', p:1}}>
 
-                            <Button variant='contained'>
+                            <Button variant='contained' onClick={handleSortByName}>
                                 Name (A - Z)
                             </Button>
-                            <Button variant='contained'>
+                            <Button variant='contained' onClick={handleSortbyPublishDate}>
                                 Publish Date (Newest)
                             </Button>
-                            <Button variant='contained'>
+                            <Button variant='contained' onClick={handleSortByListens}>
                                 Listens (High - Low)
                             </Button>
-                            <Button variant='contained'>
+                            <Button variant='contained' onClick={handleSortByLikes}>
                                 Likes (High - Low)
                             </Button>
-                            <Button variant='contained'>
+                            <Button variant='contained' onClick={handleSortByDislikes}>
                                 Dislikes (High- Low)
                             </Button>
                         </Box>

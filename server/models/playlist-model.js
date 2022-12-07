@@ -24,6 +24,7 @@ const playlistSchema = new Schema(
             message: String
         }], required: true },
         published: { type: String, required:true },
+        publishedTime: { type: String, required: true},
         listens: {type: Number, required: true},
     },
     { timestamps: true },
