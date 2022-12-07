@@ -738,7 +738,43 @@ function GlobalStoreContextProvider(props) {
     }
 
     store.duplicatePlaylist = function (id) {
+        console.log("In store, duplicating " + id);
+        async function asyncGetList(id){
+            // Get the playlist first
+            let response = await api.getPlaylistById(id);
+            if(response.data.success) {
+                console.log("successfully retreived list with id " + id);
+                let dupName = response.data.playlist.name;
+                let dupSongs = response.data.playlist.songs;
+                let newSongs = dupSongs.map(({_id, ...rest}) => {
+                    return rest;
+                })
 
+                async function createPlaylist(newListName, songs, email, userName){
+                    console.log("Duplicate songs: ", songs)
+                    const response = await api.createPlaylist(newListName, songs, email, userName)
+                    if(response.status === 201){
+                        console.log("Successfully duplicated list!")
+                        let newList = response.data.playlist;
+                        storeReducer({
+                            type: GlobalStoreActionType.CREATE_NEW_LIST,
+                            payload: newList
+                        });
+
+                        store.loadIdNamePairs();
+                    }
+                    
+                }
+
+                createPlaylist(dupName, newSongs, auth.user.email, auth.user.userName)
+
+
+            }
+
+
+        }
+
+        asyncGetList(id);
     }
 
     // Store sorting functions, sort locally?

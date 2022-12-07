@@ -165,8 +165,11 @@ function ListCard(props) {
 
     }
 
-    function handleDuplicate(event) {
+    function handleDuplicate(event, id) {
         event.stopPropagation();
+        console.log("duplicating " + id);
+        store.duplicatePlaylist(id)
+
     }
 
 
@@ -302,7 +305,7 @@ function ListCard(props) {
             <Button variant='contained' onClick={(event) => {handleDeleteList(event, idNamePair._id)}}>
                 Delete
             </Button>
-            <Button variant='contained'>
+            <Button variant='contained' onClick={(event) => {handleDuplicate(event, idNamePair._id)}}>
                 Duplicate
             </Button>
 

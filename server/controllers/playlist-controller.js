@@ -18,14 +18,32 @@ createPlaylist = (req, res) => {
         })
     }
 
-    const playlist = new Playlist(body);
-    console.log("playlist: " + playlist.toString());
+
+    let playlist = new Playlist(body);
+    let newName = playlist.name;
+    console.log("new playlist: " + playlist.toString());
     if (!playlist) {
         return res.status(400).json({ success: false, error: err })
     }
+    
 
-    User.findOne({ _id: req.userId }, (err, user) => {
+    User.findOne({ _id: req.userId }, async (err, user) => {
         console.log("user found: " + JSON.stringify(user));
+        let userLists = user.playlists;
+
+        for (let i = 0; i < userLists.length; i++){
+            await Playlist.findOne({_id:userLists[i], name: playlist.name}, (err, tempPlaylist) => {
+                if(err) {
+                    return res.status(400).json({ success: false, error: err })
+                }
+                if(tempPlaylist) {
+                    playlist.name = playlist.name + '(1)';
+                }
+            })
+        }
+
+        
+        console.log(playlist.name)
         user.playlists.push(playlist._id);
         user
             .save()
@@ -39,7 +57,7 @@ createPlaylist = (req, res) => {
                     })
                     .catch(error => {
                         return res.status(400).json({
-                            errorMessage: 'Playlist Not Created!'
+                            errorMessage: error.message
                         })
                     })
             });
