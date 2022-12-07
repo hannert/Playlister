@@ -235,7 +235,7 @@ function GlobalStoreContextProvider(props) {
                 return setStore({
                     ...store,
                     currentPlayingList: payload.playlist,
-                    currentPlayingSongIndex: 0,
+                    currentPlayingSongIndex: payload.newIndex,
                     currentPlayingSong: payload.song
                 })
             }
@@ -268,13 +268,14 @@ function GlobalStoreContextProvider(props) {
                     ...store,
                     currentModal : CurrentModal.NONE,
                     idNamePairs: store.idNamePairs,
-                    currentList: payload,
+                    currentList: payload.playlist,
                     currentSongIndex: -1,
                     currentSong: null,
                     newListCounter: store.newListCounter,
                     listNameActive: false,
                     listIdMarkedForDeletion: null,
-                    listMarkedForDeletion: null
+                    listMarkedForDeletion: null,
+                    currentPlayingSong: payload.newSong
                 });
             }
             // START EDITING A LIST NAME
@@ -668,7 +669,7 @@ function GlobalStoreContextProvider(props) {
 
                 storeReducer({
                     type: GlobalStoreActionType.PLAY_PLAYLIST,
-                    payload: {playlist: response.data.playlist, song: firstSong}
+                    payload: {playlist: response.data.playlist, song: firstSong, newIndex: 0}
                 })
                 if (playlist.public === true){
                     async function asyncAddListen(id) {
@@ -694,6 +695,35 @@ function GlobalStoreContextProvider(props) {
             type: GlobalStoreActionType.SET_CURRENT_PLAYING_SONG,
             payload: {song: song, index: index}
         })
+    }
+
+    store.playSongAtIndex = function (id, index) {
+        async function asyncGetList(id, index) {
+            let response = await api.getPlaylistById(id);
+            if(response.data.success) { // Playlist found
+                // Check if playlist is not empty
+                let playlist = response.data.playlist;
+                let firstSong = null
+                if(playlist.length !== 0){
+                    console.log("Nonempty playlist found")
+                    console.log(playlist.songs[index])
+                    firstSong = playlist.songs[index]
+                }
+
+                storeReducer({
+                    type: GlobalStoreActionType.PLAY_PLAYLIST,
+                    payload: {
+                        playlist: response.data.playlist, 
+                        song: firstSong,
+                        newIndex: index,
+                    }
+                })
+                
+            }
+
+        }
+
+        asyncGetList(id, index);
     }
 
     // LIKE A PLAYLIST
@@ -900,9 +930,15 @@ function GlobalStoreContextProvider(props) {
             if (response.data.success) {
                 console.log(response.data)
                 console.log(response.data)
+                
+                let newPlayingSong = store.currentList.songs[store.currentPlayingSongIndex]
+                console.log(newPlayingSong)
                 storeReducer({
                     type: GlobalStoreActionType.SET_CURRENT_LIST,
-                    payload: store.currentList
+                    payload: {
+                        playlist: store.currentList,
+                        newSong: newPlayingSong
+                    }
                 });
             }
         }

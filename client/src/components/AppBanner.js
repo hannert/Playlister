@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import AuthContext from '../auth';
 import { GlobalStoreContext } from '../store';
 
-import EditToolbar from './EditToolbar';
 
 import { Logo } from './Logo.js';
 
@@ -85,9 +84,9 @@ export default function AppBanner() {
     let menu = loggedOutMenu;
     if (auth.loggedIn) {
         menu = loggedInMenu;
-        if (store.currentList) {
-            editToolbar = <EditToolbar />;
-        }
+        // if (store.currentList) {
+        //     editToolbar = <EditToolbar />;
+        // }
     }
     
     function getAccountMenu(loggedIn) {

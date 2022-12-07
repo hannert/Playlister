@@ -244,6 +244,7 @@ function ListCard(props) {
                         key={'playlist-song-' + (index)}
                         index={index}
                         song={song}
+                        playlistId={idNamePair._id}
                     />
                 ))
                 }

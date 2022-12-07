@@ -6,12 +6,24 @@ import { GlobalStoreContext } from '../store';
 function SongCard(props) {
     const { store } = useContext(GlobalStoreContext);
     const [ draggedTo, setDraggedTo ] = useState(0);
-    const { song, index } = props;
+    const { song, index, playlistId } = props;
     const [active, setActive] = useState(false)
     useEffect(() => {
         if(store?.currentPlayingSong?._id === song._id){
-            console.log("Song match found")
-            setActive(true);
+            if(store._id == null) {
+                if(store?.currentPlayingSongIndex === index){
+                    setActive(true);
+                }
+                else{
+                    setActive(false);
+                }
+                
+            } else{
+                console.log("Song match found")
+                console.log(song._id)
+                setActive(true);
+            }
+            
         } else {
             if(active === true)
                 setActive(false);
@@ -58,7 +70,8 @@ function SongCard(props) {
         event.stopPropagation();
         if (event.detail === 1) {
             console.log(song)
-            store.setCurrentPlayingSong(song, index)
+            store.playSongAtIndex(playlistId, index)
+            // store.setCurrentPlayingSong(song, index)
         }
         // DOUBLE CLICK IS FOR SONG EDITING
         if (event.detail === 2) {
