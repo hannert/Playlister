@@ -47,13 +47,6 @@ export default function YouTubeBox () {
     return(
 
         <Box sx={{height:'100%'}}>
-
-            Youtube Player Component
-            <Box sx={{backgroundColor:"green"}}>
-                 Real Debug Hours.
-                {currentSong}
-            </Box>
-
             <ReactPlayer 
             url={"https://www.youtube.com/watch?v=" + currentSong} 
             width='100%'

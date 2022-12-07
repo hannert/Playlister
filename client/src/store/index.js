@@ -312,7 +312,7 @@ function GlobalStoreContextProvider(props) {
                 let playlist = response.data.playlist;
                 playlist.name = newName;
                 async function updateList(playlist) {
-                    response = await api.updatePlaylistById(playlist._id, playlist);
+                    response = await api.updatePlaylistById(playlist._id, playlist, false);
                     if (response.data.success) {
                         async function getListPairs(playlist) {
                             response = await api.getPlaylistPairs();
@@ -354,7 +354,7 @@ function GlobalStoreContextProvider(props) {
                 playlist.published = publishDate;
                 console.log(playlist)
                 async function updateList(playlist) {
-                    response = await api.updatePlaylistById(playlist._id, playlist);
+                    response = await api.updatePlaylistById(playlist._id, playlist, false);
                     if (response.data.success) {
                         async function getListPairs(playlist) {
                             response = await api.getPlaylistPairs();
@@ -587,6 +587,7 @@ function GlobalStoreContextProvider(props) {
         asyncGetList(id);
     }
 
+    // Play playlist -> Increment Listen count?
     store.playPlaylist = function (id) {
         async function asyncGetList(id) {
             let response = await api.getPlaylistById(id);
@@ -604,10 +605,22 @@ function GlobalStoreContextProvider(props) {
                     type: GlobalStoreActionType.PLAY_PLAYLIST,
                     payload: {playlist: response.data.playlist, song: firstSong}
                 })
+                if (playlist.public === true){
+                    async function asyncAddListen(id) {
+                    let response = await api.updatePlaylistById(id, {}, true);
+                    if(response.data.success) { // Playlist found
+                    }
+
+                    }
+                    asyncAddListen(id);
+                }
+                
             }
 
         }
+
         asyncGetList(id);
+        
     }
 
     store.setCurrentPlayingSong = function (song, index) {
@@ -617,6 +630,43 @@ function GlobalStoreContextProvider(props) {
             payload: {song: song, index: index}
         })
     }
+
+    // LIKE A PLAYLIST
+    store.likePlaylist = function (id) {
+
+
+
+    }
+
+    store.dislikePlaylist = function (id) {
+
+    }
+
+    store.duplicatePlaylist = function (id) {
+
+    }
+
+    store.sortByName = function () {
+
+    }
+    store.soryByPublishDate = function () {
+
+    }
+    store.sortByListens = function () {
+
+    }
+    store.sortByLikes = function () {
+
+    }
+    store.sortByDislikes = function () {
+
+    }
+
+    store.commentOnPlaylist = function () {
+
+    }
+
+
 
     // THE FOLLOWING 8 FUNCTIONS ARE FOR COORDINATING THE UPDATING
     // OF A LIST, WHICH INCLUDES DEALING WITH THE TRANSACTION STACK. THE
@@ -739,7 +789,7 @@ function GlobalStoreContextProvider(props) {
     }
     store.updateCurrentList = function() {
         async function asyncUpdateCurrentList() {
-            const response = await api.updatePlaylistById(store.currentList._id, store.currentList);
+            const response = await api.updatePlaylistById(store.currentList._id, store.currentList, false);
             if (response.data.success) {
                 console.log(response.data)
                 console.log(response.data)

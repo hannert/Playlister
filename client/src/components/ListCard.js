@@ -1,6 +1,8 @@
 import AddIcon from '@mui/icons-material/Add';
 import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
 import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
+import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
+import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import { Button, Grid, IconButton, List } from '@mui/material';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -117,6 +119,19 @@ function ListCard(props) {
         console.log("Publish " + idNamePair._id)
         store.publishPlaylist(idNamePair._id)
     }
+    function handleLike(event) {
+        event.stopPropagation();
+    }
+
+    function handleDislike(event) {
+        event.stopPropagation();
+
+    }
+
+    function handleDuplicate(event) {
+        event.stopPropagation();
+    }
+
 
 
     let selectClass = "unselected-list-card";
@@ -247,13 +262,32 @@ function ListCard(props) {
         </Box>
     }
 
-    let publishDate = ""
+    let likes = "";
+    let publishDate = "";
+    let listens = "";
 
     if(idNamePair.published !== 'n/a'){
+        likes = 
+        <Box>
+            <IconButton>
+                <ThumbUpOffAltIcon/> {idNamePair.likes}
+            </IconButton>
+            <IconButton>
+                <ThumbDownOffAltIcon/> {idNamePair.dislikes}
+            </IconButton>
+        </Box>
+
+
         publishDate = 
         <Box>
             Published: {idNamePair.published}
         </Box>;
+
+        listens = 
+        <Box>
+            Listens: {idNamePair.listens}
+        </Box>
+
     }
 
 
@@ -278,7 +312,7 @@ function ListCard(props) {
                     </Box>
                 </Box>
                 <Box sx={{ float:'right'}}>
-                    Likes and dislikes
+                    {likes}
                 </Box>
             </Box>
             {expandedList}
@@ -292,7 +326,9 @@ function ListCard(props) {
                         </Box>
                     </Grid>
                     <Grid item xs={3} sx={{p:1, display:'flex'}}>
-                        <Box sx={{alignSelf:'flex-end'}}> Lifetime: </Box>
+                        <Box sx={{alignSelf:'flex-end'}}> 
+                            {listens} 
+                        </Box>
                     </Grid>
                     <Grid item xs={2}>
                         <Box sx={{float:'right'}}>

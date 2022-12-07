@@ -29,9 +29,6 @@ export default function PlayerBox () {
 
     return (
         <Box sx={{height:'100%'}}>
-            PlayerBox, Have Select Btwn Video And Comment
-
-            {/* <PlayerBoxToolbar /> */}
             <Box>
                 <ToggleButtonGroup
                     value={alignment}
