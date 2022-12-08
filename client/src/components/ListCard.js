@@ -84,6 +84,7 @@ function ListCard(props) {
         event.stopPropagation();
         store.getListById(id);
         setExpanded(true);
+        store.clearAllTransactions();
     }
     function handleCollapse(event) {
         event.stopPropagation();
@@ -319,11 +320,11 @@ function ListCard(props) {
     if(idNamePair.published !== 'n/a'){
         likes = 
         <Box>
-            <IconButton>
+            <IconButton onClick={handleLike}>
                 <ThumbUpOffAltIcon/> 
                 <Typography>{idNamePair.likes}</Typography>
             </IconButton>
-            <IconButton>
+            <IconButton onClick={handleDislike}>
                 <Typography><ThumbDownOffAltIcon/> {idNamePair.dislikes}</Typography>
             </IconButton>
         </Box>
