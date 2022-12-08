@@ -1,0 +1,90 @@
+[{
+  "_id": {
+    "$oid": "639124477385f18e7451cd95"
+  },
+  "playlists": [
+    {
+      "$oid": "6391244f7385f18e7451cd9b"
+    },
+    {
+      "$oid": "639125087385f18e7451ce52"
+    },
+    {
+      "$oid": "6391348b60f6a0414c52d528"
+    },
+    {
+      "$oid": "6391359f317b7f5b7865a869"
+    },
+    {
+      "$oid": "639155189c24cb7f40f465a9"
+    },
+    {
+      "$oid": "639157aa9c24cb7f40f468aa"
+    }
+  ],
+  "likes": [],
+  "dislikes": [
+    "6391244f7385f18e7451cd9b"
+  ],
+  "userName": "Hannert",
+  "firstName": "Han",
+  "lastName": "Lin",
+  "email": "hannert@gmail.com",
+  "passwordHash": "$2a$10$NoTUAmm3qjj.k5WLPsHFN.c8GbhITgpCgpbuM6T23OYZSefF.GB1K",
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1670456391684"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1670469546710"
+    }
+  },
+  "__v": 6
+},{
+  "_id": {
+    "$oid": "639125eb7385f18e7451ceb5"
+  },
+  "playlists": [
+    {
+      "$oid": "639125f27385f18e7451cebb"
+    },
+    {
+      "$oid": "639155b09c24cb7f40f465e4"
+    },
+    {
+      "$oid": "639156999c24cb7f40f46767"
+    },
+    {
+      "$oid": "639156ae9c24cb7f40f467bd"
+    },
+    {
+      "$oid": "639156b19c24cb7f40f467d2"
+    },
+    {
+      "$oid": "639156b79c24cb7f40f467f7"
+    },
+    {
+      "$oid": "639158699c24cb7f40f46939"
+    }
+  ],
+  "likes": [],
+  "dislikes": [],
+  "userName": "EvilStranger",
+  "firstName": "Rambunctious",
+  "lastName": "Raccoon",
+  "email": "evilstranger@gmail.com",
+  "passwordHash": "$2a$10$o53DgtezLTwA5cYrh4A2QOLEg0qK38oNAieAaz6Rmf4NL8PtxFUtC",
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1670456811456"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1670469738028"
+    }
+  },
+  "__v": 7
+}]

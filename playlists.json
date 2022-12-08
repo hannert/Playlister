@@ -1,0 +1,526 @@
+[{
+  "_id": {
+    "$oid": "6391244f7385f18e7451cd9b"
+  },
+  "name": "My First Playlist!",
+  "songs": [
+    {
+      "_id": {
+        "$oid": "639124b57385f18e7451ce16"
+      },
+      "title": "Why Are Sundays So Depressing",
+      "artist": "The Strokes",
+      "youTubeId": "_kUDTJA1KWk"
+    },
+    {
+      "_id": {
+        "$oid": "639124b57385f18e7451ce17"
+      },
+      "title": "The Adults Are Talking",
+      "artist": "The Strokes",
+      "youTubeId": "826mxiKjoP0"
+    },
+    {
+      "_id": {
+        "$oid": "639124b57385f18e7451ce18"
+      },
+      "title": "Not The Same Anymore",
+      "artist": "The Strokes",
+      "youTubeId": "sY1U0eJV5es"
+    },
+    {
+      "_id": {
+        "$oid": "639124fc7385f18e7451ce3c"
+      },
+      "title": "Ode To The Mets",
+      "artist": "The Strokes",
+      "youTubeId": "CU0i9W_XkDI"
+    }
+  ],
+  "ownerEmail": "hannert@gmail.com",
+  "ownerUsername": "Hannert",
+  "likes": 0,
+  "dislikes": 0,
+  "public": true,
+  "comments": [
+    {
+      "_id": {
+        "$oid": "639157259c24cb7f40f4686b"
+      },
+      "userName": "EvilStranger",
+      "message": "Comment test..."
+    },
+    {
+      "_id": {
+        "$oid": "6391572b9c24cb7f40f4686f"
+      },
+      "userName": "EvilStranger",
+      "message": "Cool playlist!"
+    },
+    {
+      "_id": {
+        "$oid": "639157539c24cb7f40f4689c"
+      },
+      "userName": "Hannert",
+      "message": "Thanks EvilStranger!"
+    }
+  ],
+  "published": "Dec 7, 2022",
+  "publishedTime": "2022-12-07T23:43:00.856Z",
+  "listens": 12,
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1670456399902"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1670469632031"
+    }
+  },
+  "__v": 10
+},{
+  "_id": {
+    "$oid": "639125087385f18e7451ce52"
+  },
+  "name": "My Second Playlist!",
+  "songs": [
+    {
+      "_id": {
+        "$oid": "6391254b7385f18e7451ce8f"
+      },
+      "title": "Pumped Up Kicks",
+      "artist": "FosterThePeople",
+      "youTubeId": "rnO-MflYxCw"
+    },
+    {
+      "_id": {
+        "$oid": "6391254b7385f18e7451ce90"
+      },
+      "title": "Feel Good Inc.",
+      "artist": "Gorillaz",
+      "youTubeId": "NxxjLD2pmlk"
+    }
+  ],
+  "ownerEmail": "hannert@gmail.com",
+  "ownerUsername": "Hannert",
+  "likes": 0,
+  "dislikes": 0,
+  "public": false,
+  "comments": [],
+  "published": "n/a",
+  "publishedTime": "n/a",
+  "listens": 0,
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1670456584224"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1670456651715"
+    }
+  },
+  "__v": 4
+},{
+  "_id": {
+    "$oid": "639125f27385f18e7451cebb"
+  },
+  "name": "Dr.Strain",
+  "songs": [
+    {
+      "_id": {
+        "$oid": "63912b7b7385f18e7451cede"
+      },
+      "title": "Rick Roll1",
+      "artist": "?",
+      "youTubeId": "dQw4w9WgXcQ"
+    },
+    {
+      "_id": {
+        "$oid": "63912bb87385f18e7451cf6d"
+      },
+      "title": "Rick Roll 2",
+      "artist": "?",
+      "youTubeId": "dQw4w9WgXcQ"
+    },
+    {
+      "_id": {
+        "$oid": "63912bb87385f18e7451cf6e"
+      },
+      "title": "Rick Roll 3",
+      "artist": "?",
+      "youTubeId": "dQw4w9WgXcQ"
+    },
+    {
+      "_id": {
+        "$oid": "63912bb87385f18e7451cf6f"
+      },
+      "title": "Unavaliable song test",
+      "artist": "Who",
+      "youTubeId": "123124124asdas"
+    },
+    {
+      "_id": {
+        "$oid": "63912bb87385f18e7451cf70"
+      },
+      "title": "YouTube error",
+      "artist": "?",
+      "youTubeId": "asd234354245231"
+    }
+  ],
+  "ownerEmail": "evilstranger@gmail.com",
+  "ownerUsername": "EvilStranger",
+  "likes": 0,
+  "dislikes": 0,
+  "public": false,
+  "comments": [],
+  "published": "n/a",
+  "publishedTime": "n/a",
+  "listens": 0,
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1670456818210"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1670458296643"
+    }
+  },
+  "__v": 11
+},{
+  "_id": {
+    "$oid": "6391348b60f6a0414c52d528"
+  },
+  "name": "Likes test",
+  "songs": [
+    {
+      "_id": {
+        "$oid": "6391349160f6a0414c52d54f"
+      },
+      "title": "Untitled",
+      "artist": "?",
+      "youTubeId": "dQw4w9WgXcQ"
+    }
+  ],
+  "ownerEmail": "hannert@gmail.com",
+  "ownerUsername": "Hannert",
+  "likes": 501,
+  "dislikes": 32,
+  "public": true,
+  "comments": [],
+  "published": "Dec 7, 2022",
+  "publishedTime": "2022-12-08T00:49:22.289Z",
+  "listens": 21,
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1670460555634"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1670469692232"
+    }
+  },
+  "__v": 2
+},{
+  "_id": {
+    "$oid": "6391359f317b7f5b7865a869"
+  },
+  "name": "Untitled0",
+  "songs": [],
+  "ownerEmail": "hannert@gmail.com",
+  "ownerUsername": "Hannert",
+  "likes": 2,
+  "dislikes": 300,
+  "public": true,
+  "comments": [
+    {
+      "_id": {
+        "$oid": "639157389c24cb7f40f46877"
+      },
+      "userName": "EvilStranger",
+      "message": "How does this playlist have 300 dislikes?"
+    }
+  ],
+  "published": "Dec 7, 2022",
+  "publishedTime": "2022-12-08T00:53:52.994Z",
+  "listens": 2,
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1670460831124"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1670469644081"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "639155189c24cb7f40f465a9"
+  },
+  "name": "Untitled0(1)",
+  "songs": [],
+  "ownerEmail": "hannert@gmail.com",
+  "ownerUsername": "Hannert",
+  "likes": 0,
+  "dislikes": 0,
+  "public": false,
+  "comments": [],
+  "published": "n/a",
+  "publishedTime": "n/a",
+  "listens": 0,
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1670468889019"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1670468889019"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "639155b09c24cb7f40f465e4"
+  },
+  "name": "PacPanther",
+  "songs": [
+    {
+      "_id": {
+        "$oid": "639155bb9c24cb7f40f4660d"
+      },
+      "title": "Japanese 80s City Pop",
+      "artist": "Random Artist",
+      "youTubeId": "RoXhOa9LTeU"
+    },
+    {
+      "_id": {
+        "$oid": "639155bf9c24cb7f40f46621"
+      },
+      "title": "Drugs",
+      "artist": "EDEN",
+      "youTubeId": "0rflghuHtg8"
+    },
+    {
+      "_id": {
+        "$oid": "639156909c24cb7f40f4674f"
+      },
+      "title": "Drowning",
+      "artist": "EDEN",
+      "youTubeId": "IKaNodcBiLA"
+    }
+  ],
+  "ownerEmail": "evilstranger@gmail.com",
+  "ownerUsername": "EvilStranger",
+  "likes": 0,
+  "dislikes": 0,
+  "public": true,
+  "comments": [],
+  "published": "Dec 7, 2022",
+  "publishedTime": "2022-12-08T03:15:12.637Z",
+  "listens": 3,
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1670469040679"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1670469640008"
+    }
+  },
+  "__v": 23
+},{
+  "_id": {
+    "$oid": "639156999c24cb7f40f46767"
+  },
+  "name": "The Strokes",
+  "songs": [
+    {
+      "_id": {
+        "$oid": "639156999c24cb7f40f46768"
+      },
+      "title": "Why Are Sundays So Depressing",
+      "artist": "The Strokes",
+      "youTubeId": "_kUDTJA1KWk"
+    },
+    {
+      "_id": {
+        "$oid": "639156999c24cb7f40f46769"
+      },
+      "title": "The Adults Are Talking",
+      "artist": "The Strokes",
+      "youTubeId": "826mxiKjoP0"
+    },
+    {
+      "_id": {
+        "$oid": "639156999c24cb7f40f4676a"
+      },
+      "title": "Not The Same Anymore",
+      "artist": "The Strokes",
+      "youTubeId": "sY1U0eJV5es"
+    },
+    {
+      "_id": {
+        "$oid": "639156999c24cb7f40f4676b"
+      },
+      "title": "Ode To The Mets",
+      "artist": "The Strokes",
+      "youTubeId": "CU0i9W_XkDI"
+    }
+  ],
+  "ownerEmail": "evilstranger@gmail.com",
+  "ownerUsername": "EvilStranger",
+  "likes": 0,
+  "dislikes": 0,
+  "public": false,
+  "comments": [],
+  "published": "n/a",
+  "publishedTime": "n/a",
+  "listens": 0,
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1670469273196"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1670469284823"
+    }
+  },
+  "__v": 1
+},{
+  "_id": {
+    "$oid": "639156ae9c24cb7f40f467bd"
+  },
+  "name": "PacPanther(1)",
+  "songs": [
+    {
+      "_id": {
+        "$oid": "639156ae9c24cb7f40f467be"
+      },
+      "title": "Japanese 80s City Pop",
+      "artist": "Random Artist",
+      "youTubeId": "RoXhOa9LTeU"
+    },
+    {
+      "_id": {
+        "$oid": "639156ae9c24cb7f40f467bf"
+      },
+      "title": "Drugs",
+      "artist": "EDEN",
+      "youTubeId": "0rflghuHtg8"
+    },
+    {
+      "_id": {
+        "$oid": "639156ae9c24cb7f40f467c0"
+      },
+      "title": "Drowning",
+      "artist": "EDEN",
+      "youTubeId": "IKaNodcBiLA"
+    }
+  ],
+  "ownerEmail": "evilstranger@gmail.com",
+  "ownerUsername": "EvilStranger",
+  "likes": 0,
+  "dislikes": 0,
+  "public": false,
+  "comments": [],
+  "published": "n/a",
+  "publishedTime": "n/a",
+  "listens": 0,
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1670469294064"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1670469294064"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "639157aa9c24cb7f40f468aa"
+  },
+  "name": "Listens Test",
+  "songs": [
+    {
+      "_id": {
+        "$oid": "639157b19c24cb7f40f468d7"
+      },
+      "title": "Untitled",
+      "artist": "?",
+      "youTubeId": "dQw4w9WgXcQ"
+    }
+  ],
+  "ownerEmail": "hannert@gmail.com",
+  "ownerUsername": "Hannert",
+  "likes": 300,
+  "dislikes": 3,
+  "public": true,
+  "comments": [],
+  "published": "Dec 7, 2022",
+  "publishedTime": "2022-12-08T03:19:17.030Z",
+  "listens": 10000001,
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1670469546752"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1670469612776"
+    }
+  },
+  "__v": 2
+},{
+  "_id": {
+    "$oid": "639158699c24cb7f40f46939"
+  },
+  "name": "Old Published Playlist",
+  "songs": [
+    {
+      "_id": {
+        "$oid": "639158769c24cb7f40f46995"
+      },
+      "title": "Untitled",
+      "artist": "?",
+      "youTubeId": "dQw4w9WgXcQ"
+    },
+    {
+      "_id": {
+        "$oid": "639158769c24cb7f40f46996"
+      },
+      "title": "Untitled",
+      "artist": "?",
+      "youTubeId": "dQw4w9WgXcQ"
+    }
+  ],
+  "ownerEmail": "evilstranger@gmail.com",
+  "ownerUsername": "EvilStranger",
+  "likes": 0,
+  "dislikes": 0,
+  "public": true,
+  "comments": [],
+  "published": "Dec 7, 2021",
+  "publishedTime": "2021-12-08T03:22:37.317Z",
+  "listens": 0,
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1670469738030"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1670469757339"
+    }
+  },
+  "__v": 3
+}]
