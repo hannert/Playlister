@@ -51,7 +51,7 @@ export default function CommentBox() {
             flexDirection:'column',
             borderRadius: 2
             }}>
-
+            <Typography variant="overline">Comments for {store?.currentPlayingList?.name}</Typography>
             <Box id='comment-container' sx={{height:'87.5%'}}>
                 {comments}
             </Box>
@@ -62,6 +62,7 @@ export default function CommentBox() {
                 onChange={handleUpdateText}
                 value={text}
                 fullWidth
+                disabled={store?.currentPlayingList == null}
                 >
 
                 </TextField>

@@ -14,12 +14,14 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
+import { useHistory } from 'react-router-dom';
 
 export default function AppBanner() {
     const { auth } = useContext(AuthContext);
     const { store } = useContext(GlobalStoreContext);
     const [anchorEl, setAnchorEl] = useState(null);
     const isMenuOpen = Boolean(anchorEl);
+    const history = useHistory();
 
     const handleProfileMenuOpen = (event) => {
         setAnchorEl(event.currentTarget);
@@ -37,7 +39,11 @@ export default function AppBanner() {
 
     function handleLogoPress (event) {
         event.stopPropagation();
-        store.getPlaylistsInHome('')
+        if(auth.loggedIn)
+            store.getPlaylistsInHome('')
+        else
+            history.push("/");
+
     }
 
     const menuId = 'primary-search-account-menu';

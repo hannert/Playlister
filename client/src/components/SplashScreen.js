@@ -71,7 +71,7 @@ export default function SplashScreen() {
                         </Grid>
                         <Grid item xs={12}>
                             <Box>
-                                <Button variant="contained" style={{width:'120px', height:'60px'}}>
+                                <Button component={Link} to='/' variant="contained" style={{width:'120px', height:'60px'}}>
                                     Continue as Guest
                                 </Button>
                             </Box>

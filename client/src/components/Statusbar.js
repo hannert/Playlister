@@ -1,10 +1,9 @@
-import { IconButton, Typography } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import React, { useContext, useEffect } from 'react';
 import { GlobalStoreContext } from '../store';
 
 import AddIcon from '@mui/icons-material/Add';
-import Fab from '@mui/material/Fab';
 /*
     Our Status bar React component goes at the bottom of our UI.
     
@@ -31,15 +30,15 @@ function Statusbar() {
         homeBar = 
         <Box id="awesome" sx={{height:'10%',display:'flex', justifyContent:'center'}}>
         <Box>
-            <IconButton 
+            <Button 
             color="primary" 
             aria-label="add"
             id="add-list-button"
             onClick={handleCreateNewList}
-            fullHeight
+            sx={{height:'100%'}}
             >
                 <AddIcon />
-            </IconButton>
+            </Button>
         </Box>
         <Typography variant="h2">Your Lists</Typography>
     </Box>

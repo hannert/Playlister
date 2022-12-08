@@ -809,7 +809,7 @@ function GlobalStoreContextProvider(props) {
                             payload: newList
                         });
 
-                        store.loadIdNamePairs();
+                        store.getLoggedInUserPlaylists();
                     }
                     
                 }

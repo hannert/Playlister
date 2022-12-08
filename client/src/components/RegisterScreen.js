@@ -1,18 +1,18 @@
 import { useContext } from 'react';
-import AuthContext from '../auth'
-import Copyright from './Copyright'
+import AuthContext from '../auth';
+import Copyright from './Copyright';
 
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
-import CssBaseline from '@mui/material/CssBaseline';
 import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import MUIErrorModal from './MUIErrorModal'
+import AppBanner from './AppBanner';
+import MUIErrorModal from './MUIErrorModal';
 
 export default function RegisterScreen() {
     const { auth } = useContext(AuthContext);
@@ -31,8 +31,10 @@ export default function RegisterScreen() {
     };
 
     return (
+        <Box>
+        <AppBanner />
             <Container component="main" maxWidth="xs">
-                <CssBaseline />
+                
                 <MUIErrorModal />
                 <Box
                     sx={{
@@ -69,7 +71,6 @@ export default function RegisterScreen() {
                                     fullWidth
                                     id="firstName"
                                     label="First Name"
-                                    autoFocus
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
@@ -134,5 +135,6 @@ export default function RegisterScreen() {
                 </Box>
                 <Copyright sx={{ mt: 5 }} />
             </Container>
+        </Box>
     );
 }

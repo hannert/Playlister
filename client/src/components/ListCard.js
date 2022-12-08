@@ -44,7 +44,7 @@ function ListCard(props) {
             width:'100%',
             height:'100%', 
             overflow:'auto', 
-            backgroundColor:'pink', 
+            backgroundColor:'#2C2F70', 
             marginTop:1, 
             marginBottom:1, 
             borderRadius:2,
@@ -320,23 +320,24 @@ function ListCard(props) {
         likes = 
         <Box>
             <IconButton>
-                <ThumbUpOffAltIcon/> {idNamePair.likes}
+                <ThumbUpOffAltIcon/> 
+                <Typography>{idNamePair.likes}</Typography>
             </IconButton>
             <IconButton>
-                <ThumbDownOffAltIcon/> {idNamePair.dislikes}
+                <Typography><ThumbDownOffAltIcon/> {idNamePair.dislikes}</Typography>
             </IconButton>
         </Box>
 
 
         publishDate = 
-        <Box>
+        <Typography>
             Published: {idNamePair.published}
-        </Box>;
+        </Typography>;
 
         listens = 
-        <Box>
+        <Typography>
             Listens: {idNamePair.listens}
-        </Box>
+        </Typography>
 
     }
 
@@ -374,10 +375,10 @@ function ListCard(props) {
                         {playlistName}
                     </Box>
                     
-                    <Box>
+                    <Typography>
                         By: {idNamePair.ownerUsername}
                         
-                    </Box>
+                    </Typography>
                 </Box>
                 <Box sx={{ float:'right'}}>
                     {likes}

@@ -13,6 +13,9 @@ export default function Terminal (){
         <Box 
         id='Terminal'
         height='90%'
+        sx={{
+            paddingRight:2,
+        }}
         >
            <Grid
             container

@@ -13,7 +13,7 @@ export default function YouTubeBox () {
     const { store } = useContext(GlobalStoreContext);
     const [_playing, setPlaying] = useState(false)
     const [currentSong, setCurrentSong] = useState('')   
-    const [currentList, setCurrentList] = useState(['i7ouv9AyB_o']) // Get a copy of the opened playlist
+    const [currentList, setCurrentList] = useState(null) // Get a copy of the opened playlist
     const [currentSongIndex, setCurrentSongIndex] = useState(0)
     useEffect(() => {
         console.log(store?.currentPlayingSong)
@@ -36,21 +36,27 @@ export default function YouTubeBox () {
     }
     function handleSkip() {
         console.log("Skipped from " + currentSongIndex)
-        let newSongIndex = (currentSongIndex + 1) % currentList.length
-        setCurrentSongIndex(newSongIndex)
-        setCurrentSong(currentList[newSongIndex].youTubeId)
-        console.log(currentList, newSongIndex)
-        store.setCurrentPlayingSong(currentList[newSongIndex], newSongIndex)
+        if(currentList != null){
+            let newSongIndex = (currentSongIndex + 1) % currentList.length
+            setCurrentSongIndex(newSongIndex)
+            setCurrentSong(currentList[newSongIndex].youTubeId)
+            console.log(currentList, newSongIndex)
+            store.setCurrentPlayingSong(currentList[newSongIndex], newSongIndex)
+        }
+
     }
+
     function handlePrevious() {
         console.log("Go previous from " + currentSongIndex)
-        let newSongIndex = (currentSongIndex - 1) % currentList.length
-        if (newSongIndex === -1) newSongIndex = currentList.length - 1
-        console.log(currentList, newSongIndex)
-        setCurrentSongIndex(newSongIndex)
-        setCurrentSong(currentList[newSongIndex].youTubeId)
-        
-        store.setCurrentPlayingSong(currentList[newSongIndex], newSongIndex)
+        if(currentList != null){
+            let newSongIndex = (currentSongIndex - 1) % currentList.length
+            if (newSongIndex === -1) newSongIndex = currentList.length - 1
+            console.log(currentList, newSongIndex)
+            setCurrentSongIndex(newSongIndex)
+            setCurrentSong(currentList[newSongIndex].youTubeId)
+            
+            store.setCurrentPlayingSong(currentList[newSongIndex], newSongIndex)
+        }
     }
 
 
@@ -95,16 +101,32 @@ export default function YouTubeBox () {
                     
                     <Box sx={{backgroundColor:'burlywood', display:'flex', justifyContent:'center', width:'100%', borderRadius:3}}>
                         <ButtonGroup variant="text">
-                            <IconButton sx={{borderRadius:0}} onClick={handlePrevious}>
+                            <IconButton 
+                                sx={{borderRadius:0}} 
+                                onClick={handlePrevious}
+                                disabled={store?.currentPlayingList == null}
+                            >
                                 <SkipPreviousIcon />
                             </IconButton>
-                            <IconButton sx={{borderRadius:0}} onClick={handlePause}>
+                            <IconButton 
+                                sx={{borderRadius:0}} 
+                                onClick={handlePause}
+                                disabled={store?.currentPlayingList == null}
+                                >
                                 <StopIcon />
                             </IconButton>
-                            <IconButton sx={{borderRadius:0}} onClick={handlePlay}>
+                            <IconButton
+                                sx={{borderRadius:0}}
+                                onClick={handlePlay}
+                                disabled={store?.currentPlayingList == null}
+                                >
                                 <PlayArrowIcon />
                             </IconButton>
-                            <IconButton sx={{borderRadius:0}} onClick={handleSkip}>
+                            <IconButton
+                                sx={{borderRadius:0}}
+                                onClick={handleSkip}
+                                disabled={store?.currentPlayingList == null}
+                                >
                                 <SkipNextIcon />
                             </IconButton>
                         </ButtonGroup>
